@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <script>
+        
+    </script>
+    <script>
+
+       var mymodule= angular.module("kuchModule",[]);
+      
+      mymodule.controller("kuchController",function($scope,$http)
+      {
+
+        $scope.jsonArray=[];
+        // $scope.emailid="";
+        
+        $scope.doFetchAll=function(){
+            
+       
+            var url="/do-fetch-all-Players";
+            $http.get(url).then(allGoodFx,someBadFx);
+            function allGoodFx(response)
+            {
+                
+                $scope.jsonArray=response.data;
+                for(i=0;i<response.data.length;i++)
+                {
+                    if(response.data[i].status==1)
+                {
+                    response.data[i].status="Active";
+                }
+                else
+                response.data[i].status="Blocked";
+               
+                }
+            }
+
+            function someBadFx(err)
+            {
+                alert("Fetch Error:"+JSON.stringify(err.data));
+            }
+        }
+       //----------------------
+       $scope.doBlock=function(emailid)
+       {
+        
+            var url="/Block-Player?emailid="+emailid;
+            
+            $http.get(url).then(allGoodFx,someBadFx);
+            function allGoodFx(response)
+            {
+             // alert(response.data);//resp in string
+                $scope.doFetchAll();
+                
+            }
+
+            function someBadFx(response)
+            {
+                alert("Block Error: "+JSON.stringify(response.data));
+            }
+       }
+       $scope.doUnBlock=function(emailid)
+       {
+        
+            var url="/UnBlock-Player?emailid="+emailid;
+            
+            $http.get(url).then(allGoodFx,someBadFx);
+            function allGoodFx(response)
+            {
+             // alert(response.data);//resp in string
+                $scope.doFetchAll();
+                
+            }
+
+            function someBadFx(response)
+            {
+                alert("Block Error: "+JSON.stringify(response.data));
+            }
+       }
+
+
+       })
+
+    </script>
+</head>
+<body ng-app="kuchModule" ng-controller="kuchController" >
+    <div class="container">
+        <div class="card p-4">
+            <h3 class="text-center fw-bold mb-4">
+                Manage Players
+            </h3>
+            <div class="cl-md-2">
+                <div  ng-app="" ng-init="doFetchAll()" style="margin: 10px ;"></div>
+            </div>
+        </div>
+    </div>
+
+<!-- ------------------------------------ -->
+ <div ng-if="jsonArray.length > 0">
+    <h5 class="text-center fw-semibold mb-3">All Players</h5>
+    <div class="table-responsive">
+        <table class="table table-info table-hover align-middle text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Sr. No.</th>
+                    <th scope="col">Email id</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="obj in jsonArray">
+                    <th scope="row">{{$index+1}}</th>
+                    <td>{{obj.emailid}}</td>
+                    <td>{{obj.status}}</td>
+                    <td>
+                        <button   style="width: 80px; line-height: 17px; margin: 2px;" class="btn btn-danger" ng-click="doBlock(obj.emailid);">Block</button>
+                    
+                        <button style="width: 80px; line-height: 17px;margin: 2px;"  class="btn btn-success" ng-click="doUnBlock(obj.emailid);">Unblock</button>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+ </div>
+
+    
+    
+    
+
+   
+</body>
+</html>

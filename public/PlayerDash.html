@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Dashboard</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+<!-- for bootstrap css -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+<!-- for bootstrap js -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" /><!--  for jQuery -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<style>
+          .card{
+            transition: all 0.3s;
+          }
+
+          .card:hover{
+            transform: scale(1.10);
+          }
+           body.dark-theme {
+      background-color: #000000;
+      color:white;
+    }
+    .btn-danger:hover{
+       background-color: #000000;
+      color:rgb(211, 62, 62);
+    }
+    video {
+  
+      
+  object-fit: cover;
+  pointer-events: none; /* Prevent direct interaction */
+}
+    .video-container {
+ 
+  overflow: hidden;
+}
+    
+    
+</style>
+<script>
+  
+    //   var mymodule = angular.module("kuchModule", []);
+
+    //   mymodule.controller("kuchController", function ($scope, $http) {
+    //         $scope.jsonArray = [];
+    //         $scope.email="";
+    //         $scope.Pwd="";
+    //         $scope.NewPwd="";
+    //         $scope.doCheckEmailPwd = function () {
+    //             alert($scope.Pwd);
+    //             var url = "/do-Check-Email-Pwd?email="+$scope.email+"&Pwd="+$scope.Pwd;
+
+
+    //             $http.get(url).then(allGoodFx, someBadFx);
+    //             function allGoodFx(response) {
+    //                 //resp in JSON array
+    //                 alert(JSON.stringify(response.data));
+    //                 //$scope.jsonArray = response.data;
+    //             }
+
+    //             function someBadFx(response) {
+    //                 alert(JSON.stringify(response.data));
+    //             }
+    //         };
+            
+    //         $scope.doChangePwd = function () {
+    //             //alert();
+    //             var url = "/do-Change-Pwd?Email="+$scope.email+"&Pwd="+$scope.Pwd+"&NewPwd="+$scope.NewPwd;
+
+
+    //             $http.get(url).then(allGoodFx, someBadFx);
+    //             function allGoodFx(response) {
+    //                 //resp in JSON array
+    //                 alert(JSON.stringify(response.data));
+    //                 //$scope.jsonArray = response.data;
+    //             }
+
+    //             function someBadFx(response) {
+    //                 alert(JSON.stringify(response.data));
+    //             }
+    //         };
+    // });
+    //  ----------------------------------------
+    function showUser()
+          {
+            let activeUser=localStorage.getItem("activeUser");
+           // alert(activeUser);
+            
+            //document.getElementById("welcome").innerHTML=activeUser;
+            document.getElementById("email").value=activeUser;
+          }
+          function doLogout()
+          {
+             localStorage.removeItem("activeUser");
+             location.href="index.html";
+
+
+          }
+    $(document).ready(function () {
+      
+      let jasoos=0;
+        $("#Pwd").blur(function () {
+            if($(this).val()==""){
+              return;
+            }
+            let obj = {
+                type: "get",
+                url: "/do-Check-Email-Pwd",
+                data: {
+                    Email: $("#email").val(),
+                    Pwd: $("#Pwd").val()
+
+
+                }
+            }
+
+            $.ajax(obj).then(
+
+                function (response) {
+                  if(response=='Good')
+                { 
+                   $("#Pwd").css('border', 'solid 1px green');
+                   $("#email").css('border', 'solid 1px green');
+                  // alert("asdfghjkl");
+                  $("#NewPwd").prop('readonly', false);
+                  if(jasoos==1)
+                {
+                  $("#btnAJAXreset").prop("disabled", false);
+                }
+                }
+
+                if(response=='Bad')
+
+                { 
+                  $("#Pwd").css('border', 'solid 1px red');
+                   $("#email").css('border', 'solid 1px red');
+                  $("#btnAJAXreset").prop("disabled", "true");
+                  $("#NewPwd").prop('readonly', true);
+                  alert("Email id and password do not Match!");
+
+                }
+                    
+                }).fail(function (err) {
+                    alert(err);
+                    
+                    $("#btnAJAXreset").prop("disabled", "true");
+                })
+
+        })
+        $("#btnAJAXreset").click(function () {
+            
+            let obj = {
+                type: "get",
+                url: "/do-Change-Pwd",
+                data: {
+                    Email: $("#email").val(),
+                    Pwd: $("#Pwd").val(),
+                    NewPwd: $("#NewPwd").val()
+
+
+                }
+            }
+
+            $.ajax(obj).then(
+
+                function (response) {
+                  if(response=='Password Updated Successfully')
+                {
+                  alert(response);
+                  
+                }
+                else
+                {
+                  alert("An Error Occured");
+                  
+
+                }
+                    
+                }).fail(function (err) {
+                    alert(err);
+                })
+
+        })
+        $("#NewPwd").keydown(function () {
+                    
+                    //alert();
+                    $("#NewPwd").keyup(function () {
+
+                        let X = $(this).val();
+                        $(this).css("border","solid 1px red");
+                        if (X.length >= 8) {
+                            $("#length").css("color", "green");
+                        }
+                        if (X.length < 8) {
+                            $("#length").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexUPPER = /[A-Z]/;
+                        if (regexUPPER.test(X) == true) {
+                            $("#uppercase").css("color", "green");
+                        }
+                        if (regexUPPER.test(X) == false) {
+                            $("#uppercase").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexlower = /[a-z]/;
+                        if (regexlower.test(X) == true) {
+                            $("#lowercase").css("color", "green");
+                            
+                        }
+                        if (regexlower.test(X) == false) {
+                            $("#lowercase").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexnumber = /[0-9]/;
+                        if (regexnumber.test(X) == true) {
+                            $("#number").css("color", "green");
+                        }
+                        if (regexnumber.test(X) == false) {
+                            $("#number").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexspecial = /[!@#$%^&*(),.?":{}|<>]/;
+                        if (regexspecial.test(X) == true) {
+                            $("#special").css("color", "green");
+                        }
+                        if (regexspecial.test(X) == false) {
+                            $("#special").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                          jasoos=0;
+                        }
+
+                        if (X.length >= 8 && regexUPPER.test(X) == true && regexlower.test(X) == true && regexnumber.test(X) == true && regexspecial.test(X) == true) {
+                            jasoos=1;
+                            $(this).css("border","solid 1px green");
+                                $("#btnAJAXreset").prop("disabled", false);
+                                
+                                
+                            
+                            // else
+                            // {
+                            //     // alert();
+                            // }
+                            
+                        }
+                        else {
+
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            
+                        }
+                    })
+                })
+              // GIF1 GIF1 GIF1
+    const gif1 = document.getElementById('gif1');
+    const staticImage1 = 'pics/user-profile_pic.jpg'; // Static image (non-animated)
+    const gifImageSrc1 = 'pics/user-profile_19003863.gif'; // Animated GIF
+
+    gif1.addEventListener('mouseenter', () => {
+      gif1.src = gifImageSrc1; // Change to GIF on mouse enter
+    });
+
+    gif1.addEventListener('mouseleave', () => {
+      gif1.src = staticImage1; // Revert to static image on mouse leave
+    });
+    ////////////////////////////////////////////////////
+
+    //GIF2 GIF2 GIF2
+    const gif2 = document.getElementById('gif2');
+    const staticImage2 = 'pics/exploreTpic.jpg'; // Static image (non-animated)
+    const gifImageSrc2 = 'pics/exploreT.gif'; // Animated GIF
+
+    gif2.addEventListener('mouseenter', () => {
+      gif2.src = gifImageSrc2; // Change to GIF on mouse enter
+    });
+
+    gif2.addEventListener('mouseleave', () => {
+      gif2.src = staticImage2; // Revert to static image on mouse leave
+    });
+     $("#eyefont1").click(function(){
+        let txt=$("#Pwd").prop("type");
+                   { if(txt=="password")
+                        {
+                            $("#Pwd").prop("type","text");
+                                $("#eyefont1").addClass("fa-eye").removeClass("fa-eye-slash");
+                                
+                        }
+                    else
+                            {   $("#Pwd").prop("type","password");//type changed
+                            $("#eyefont1").addClass("fa-eye-slash").removeClass("fa-eye");
+            
+                            
+                            }
+                        }
+
+                            
+
+                            
+    })
+
+
+
+
+    $("#eyefont2").click(function(){
+        
+                            let txt2=$("#NewPwd").prop("type");
+                   { if(txt2=="password")
+                        {    $("#NewPwd").prop("type","text");//type changed
+                            
+                                $("#eyefont2").addClass("fa-eye").removeClass("fa-eye-slash");
+                                
+                        }
+                    else
+                            {  $("#NewPwd").prop("type","password");
+                            $("#eyefont2").addClass("fa-eye-slash").removeClass("fa-eye");
+                                
+                            }
+                        }
+
+                            
+    })
+
+
+    //GIF3 GIF3 GIF3
+    const gif3 = document.getElementById('gif3');
+    const staticImage3 = 'pics/settings_14673993.png'; // Static image (non-animated)
+    const gifImageSrc3 = 'pics/settings_14673993.gif'; // Animated GIF
+
+    gif3.addEventListener('mouseenter', () => {
+      gif3.src = gifImageSrc3; // Change to GIF on mouse enter
+    });
+
+    gif3.addEventListener('mouseleave', () => {
+      gif3.src = staticImage3; // Revert to static image on mouse leave
+    });
+
+      })
+    </script>
+
+<body onload="showUser();" 
+   
+    style="background-image: url(pics/20945942.jpg); background-size: cover;background-position: center center;
+background-repeat: no-repeat;
+background-attachment: fixed;overflow-x: hidden;">
+  <!-- nav starts -->
+   <nav class="navbar navbar-expand-lg bg-body-tertiary "  style="box-shadow: 1px 1px 10px rgb(102, 102, 102);">
+  <div class="container-fluid ">
+    <div  class="me-4"
+                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
+                    class="fs-1 shine-text" id="jersify">Jersify</h1>
+            </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ">
+        <ul class="navbar-nav">
+      <li class="nav-link"> <a class="btn btnnn nav-link me-3 " style="border-radius: 30px;padding-left:15px;padding-right: 15px; float: left;" aria-current="page" href="/">Home</a>
+    </li>
+    <!-- <li class="nav-link">  <a href="" class="btn btnnn nav-link me-3 " data-bs-toggle="modal" data-bs-target="#ChangePass" style="float: left; border-radius: 30px;padding-left:15px;padding-right: 15px;">Change Password</a>
+</li> -->
+     <li class="nav-link"> <button class="btn btnlog nav-link " style="border-radius: 30px;float: left;padding-left:15px;padding-right: 15px; "><span  onclick="doLogout();">Logout</span></button>
+     </li> </ul>
+</div>
+</div>
+  
+   
+    
+    </div>
+  </div>
+</nav>
+
+   <!-- nav ends -->
+  <!-- <div class="row " >
+        <div class="col-md-12   text-white" style=" display: flex;background-color: #000000;"> -->
+            <!-- back button and home button -->
+            
+            <!-- <button type="button" class="btn " style="margin-left: 50px;background-color: transparent;">
+                <a href="/" style="text-decoration: none;"><span style="color: #ffffff;">Home</span></a></button>
+                
+            
+
+<ul class="nav nav-tabs" style="margin-left: 50px;">
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="color: #000000;">
+                <span style="color: #ffffff;"><i class="fa-solid fa-gear"></i></span></a>
+    <ul class="dropdown-menu" style="color: #000000;">
+      <li><a href="" class="btn btn-primary dropdown-item" data-bs-toggle="modal" data-bs-target="#ChangePass">Change Password</a>
+</li>
+      <li class="btn btn-primary dropdown-item"><span style="color: #000000;" onclick="doLogout();">Logout</span></li>
+      
+    </ul>
+  </li></ul> -->
+
+
+  
+            <!-- ends here -->
+        <!-- </div>
+        
+
+    </div>
+    </div> -->
+    <div class="container">
+ <div class="row" >
+  <div class="col-md-3 offset-md-1">
+    <div class="card" style="width: 18rem;margin-left: 20px; margin-top: 50px;background:rgb(255, 255, 255); border:solid 1px rgba(0, 0, 0, 0.852); box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.663);">
+      <img src="pics/user-profile_pic.jpg" style="border-radius: 5%; background-color: #00000000;" id="gif1" >
+      <div class="card-body">
+        <h5 class="card-title" style="color: #000000;">My Profile</h5>
+        <p class="card-text"></p>
+        <a href="/Player-details" class="btn btn-primary">Go</a>
+      </div>
+    </div>
+    </div>
+     <div class="col-md-3">
+    <div class="card" style="width: 18rem;margin-left: 20px; margin-top: 50px;background:white;border:solid 1px rgba(0, 0, 0, 0.852);box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.663);">
+      <img   src="pics/exploreTpic.jpg" style="border-radius: 5px;padding-top: 5px;" id="gif2">
+      <div class="card-body">
+        <h5 class="card-title" style="color: #000000;">Explore Tournaments</h5>
+        <p class="card-text"></p>
+        <a href="/Explore-Events" class="btn btn-primary">Explore</a>
+      </div>
+    </div>
+    </div>
+     <div class="col-md-3">
+    <div class="card" style="width: 18rem;margin-left: 20px; margin-top: 50px;background:rgb(255, 255, 255);border:solid 1px rgba(0, 0, 0, 0.852);box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.663);">
+      <img src="pics/settings_14673993.png" style="border-radius: 5px; " id="gif3">
+      <div class="card-body">
+        <h5 class="card-title" style="color: #000000;">Settings</h5>
+        <p class="card-text"></p>
+        <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Go</a>
+
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+  <!-- modal -==-=- ===== -->
+
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Settings</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="align-content: center;">
+              <div class="input-group mb-3">
+              <span class="input-group-text" style="border: none; text-decoration: none;">Manage Your Profile:</span>
+            <button class="btn btnnn" style="border-radius:40px;"> <a href="/Player-details" style="text-decoration: none; color: #ffffff;">Manage</a></button>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text" style="border: none; text-decoration: none;">Change Password:</span>
+              <button class="btn btnnn" data-bs-target="#ChangePass" data-bs-toggle="modal" style="border-radius:40px; color: #ffffff;" >Change</button>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" style="border: none; text-decoration: none;">Logout:</span>
+              <button class="btn btnlog" data-bs-target="#ChangePass" data-bs-toggle="modal" style="border-radius:40px; " onclick="doLogout();">Logout</button>
+            </div>
+
+        
+      </div>
+      <div class="modal-footer">
+        <!-- <button class="btn btn-primary" data-bs-target="#ChangePass" data-bs-toggle="modal">Open second modal</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- modal parent ends-->
+  <div class="modal fade" id="ChangePass" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog ">
+      <form>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">Email id</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="email" name="email" readonly>
+            </div>
+            <div class="input-group mb-3" style="display: flex;">
+              <span class="input-group-text" id="basic-addon1">Old Password</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="Pwd" name="Pwd">
+              <i class="fa-solid fa-eye " id="eyefont1"  style="margin-left: 10px; margin-top: 10px;"></i>
+            </div>
+            <div class="input-group mb-3" style="display: flex;">
+              <span class="input-group-text" id="basic-addon1">New Password</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="NewPwd" name="NewPwd" >
+              <i class="fa-solid fa-eye " id="eyefont2"  style="margin-left: 10px; margin-top: 10px;"></i>
+            </div>
+             <div class="input-group-mb-2 mt-2" style="display: flex;">
+              <ul class="requirements" style="list-style-type: none;color: red;">
+                                    <li id="length"><i class="fa-solid fa-check" style="color: #000000;"></i> At least 8
+                                        characters</li>
+                                    <li id="uppercase"><i class="fa-solid fa-check" style="color: #000000;"></i> At
+                                        least one uppercase letter</li>
+                                    <li id="lowercase"><i class="fa-solid fa-check" style="color: #000000;"></i> At
+                                        least one lowercase letter</li>
+                                    <li id="number"><i class="fa-solid fa-check" style="color: #000000;"></i> At least
+                                        one number</li>
+                                    <li id="special"><i class="fa-solid fa-check" style="color: #000000;"></i> At least
+                                        one special character (!@#$%^&*)</li>
+                                </ul>
+
+             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnAJAXreset" disabled>Change</button>
+          </div>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+
+</body>
+<style>.btnnn {
+        transition: all 0.4s;
+        background-color: #6e6e6e;
+        
+    }
+
+    .btnnn:hover {
+        transform: scale(1.1);
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+    }
+    .btnlog {
+        transition: all 0.4s;
+        background-color: #ff4b4b;
+        color: rgb(255, 255, 255);
+        
+    }
+
+    .btnlog:hover {
+        transform: scale(1.1);
+        background-color: rgb(231, 43, 30);
+        color: rgb(255, 255, 255);
+    }
+
+    .btntop {
+        transition: all 0.4s;
+        background-color: #ffffff00;
+        color: rgb(0, 0, 0);
+        
+    }
+
+    .btntop:hover {
+        transform: scale(1.1);
+        background-color: rgba(152, 152, 152, 0);
+        color: rgb(255, 255, 255);
+        
+        
+    }
+     .shine-text {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #606060, rgb(34, 34, 34), #6e6e6e);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+</style>
+<!--navbar  -->
+<!-- <nav class="navbar navbar-expand-lg  navbar-expand-lg "
+        style="position: fixed; margin-left: 0px;z-index: 1000;background-color: #000000;  height: 70px;  display:flex;position: fixed; z-index: 1000; width: 100%;">
+        <div class="container-fluid" style="color: #000000;">
+            <div
+                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                <h1 style="margin-top: 10px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #ffffff;"
+                    class="fs-1 shine-text">Jersify</h1>
+            </div>
+
+            <button  class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarTogglerDemo01"
+                style="background-color: rgb(0, 0, 0);width: 100%;">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0  ms-auto" >
+
+                    <li class="nav-item ">
+                        <a href="#ourservices" style="color:rgb(255, 255, 255); text-decoration:none;"> <button type="button"
+                                class="btn" id="nonbtn" style="background-color: rgba(147, 4, 4, 0);color: #ffffff;">
+                                <font id="nonbtn">Our Services </font>
+                            </button></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a href="#meetthedevelopers" style="color:rgb(255, 255, 255); text-decoration:none;"> <button type="button"
+                                class="btn" id="nonbtn" style="background-color: rgba(4, 147, 68, 0);color: #ffffff;">
+                                <font id="nonbtn">Meet The Developers </font>
+                            </button></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reachus" style="color:rgb(255, 255, 255); text-decoration:none;"> <button type="button" class="btn"
+                                id="nonbtn" style="background-color: rgba(4, 147, 68, 0);color: #ffffff;">
+                                <font id="nonbtn">Reach Us </font>
+                            </button></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#modalsignup"
+                            style="background-color: rgba(4, 147, 68, 0);margin: auto; line-height: 100%;padding: 10px;color: #ffffff;">
+                            SignUp
+                        </button>
+
+                    </li>
+
+                    <li class="nav-item-dropdown">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#modallogin"
+                            style="background-color: rgba(255, 255, 255, 0); line-height: 100%; padding: 10px;color: #ffffff;">
+                            Login
+                        </button>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+     -->
+    <!-- cards 
+     
+    <div class="col-md-8 offset-md-2">
+            <div class="row row-cols-1 row-cols-md-2 g-4 offset-md-1">
+                <div class="  col">
+                    <div class="card h-100"
+                        style=" width: 20rem;background: linear-gradient(to left, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+                        <div class="card-body">
+                            <h5 class="card-title"
+                                style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">
+                                Building Connection</h5>
+                            <p class="card-text" style="color: whitesmoke;">We bridge the gap between sportspersons and
+                                tournament organizers, making it easier to discover and participate in sports events
+                                across the country.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col">
+                    <div class="card h-100"
+                        style=" width: 20rem;background: linear-gradient(to right, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+                        <div class="card-body">
+                            <h5 class="card-title"
+                                style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">
+                                Tournament Discovery & Listings</h5>
+                            <p class="card-text" style="color: whitesmoke;">Players can explore upcoming tournaments in
+                                their region by sport, date, and level—whether local, amateur, or professional.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col">
+                    <div class="card h-100"
+                        style="width: 20rem;background: linear-gradient(to left, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+                        <div class="card-body">
+                            <h5 class="card-title"
+                                style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">
+                                Easy Registration & Profiles</h5>
+                            <p class="card-text" style="color: whitesmoke;">Sportspersons can create detailed profiles,
+                                register for events, and showcase their achievements. Organizers can manage participant
+                                data seamlessly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="  col">
+                    <div class="card h-100"
+                        style="width: 20rem;background: linear-gradient(to right, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+                        <div class="card-body">
+                            <h5 class="card-title"
+                                style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">
+                                Promote Your Tournament</h5>
+                            <p class="card-text" style="color: whitesmoke;">Organizers can list and promote tournaments
+                                to a wide audience, receive participant interest, and manage applications easily.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+    -->
+
+</html>

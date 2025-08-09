@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload Tournaments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script>
+        function showPrev(fileRef, prevRef) {
+            const [file] = fileRef.files;
+            if (file) {
+                prevRef.src = URL.createObjectURL(file);
+            }
+        }
+    </script>
+    <style>
+        .btnnn {
+        transition: all 0.4s;
+        background-color: #6e6e6e;
+        
+    }
+
+    .btnnn:hover {
+        transform: scale(1.1);
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+    }
+    .shine-text {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #606060, rgb(34, 34, 34), #6e6e6e);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+    .shine-text2 {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #9d9d9d, rgb(196, 196, 196), #9f9f9f);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+    </style>
+
+</head>
+<script>
+    $(document).ready(function () {
+        $("#btnAjaxTourPublish").click(function(){
+let tempjasoos=0;
+
+            if($("#TourEmailid").val()==""){
+                $("#TourEmailid").css("border","solid 1px red");
+                tempjasoos=1;
+
+                // return;
+            }
+             if($("#TourTitle").val()==""){
+                $("#TourTitle").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourDate").val()==""){
+                $("#TourDate").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourTime").val()==""){
+                $("#TourTime").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourAdd").val()==""){
+                $("#TourAdd").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourSports").val()==""){
+                $("#TourSports").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourMinage").val()==""){
+                $("#TourMinage").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourMaxage").val()==""){
+                $("#TourMaxage").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourRegDate").val()==""){
+                $("#TourRegDate").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+             if($("#TourFee").val()==""){
+                $("#TourFee").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+            if($("#TourPrize").val()==""){
+                $("#TourPrize").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+            if($("#TourContact").val()==""){
+                $("#TourContact").css("border","solid 1px red");
+                tempjasoos=1;
+                // return;
+            }
+
+            if(tempjasoos==0){
+
+                let obj={
+                    type:"get",
+                    url:"/Ajax-Tour-Publish",
+                    data:{
+                        TourEmailid: $("#TourEmailid").val(),
+                        TourTitle:$("#TourTitle").val(),
+                        TourDate:$("#TourDate").val(),
+                        TourTime:$("#TourTime").val(),
+                        TourAdd:$("#TourAdd").val(),
+                        TourCity:$("#TourCity").val(),
+                        TourSports:$("#TourSports").val(),
+                        TourMinage:$("#TourMinage").val(),
+                        TourMaxage:$("#TourMaxage").val(),
+                        TourRegDate:$("#TourRegDate").val(),
+                        TourFee:$("#TourFee").val(),
+                        TourPrize:$("#TourPrize").val(),
+                        TourContact:$("#TourContact").val(),
+                        
+                    }
+
+                }
+                $.ajax(obj).then(
+                    function(response)
+
+                   {    
+$("#AlertModalSerr").modal('show');
+                        
+                        
+                       
+                        
+                        
+                       
+
+                    }).fail(function(err){alert("Error occured")})
+                }
+                else{
+                    return;
+                }
+            })
+            $("#modebtn").click(function () {
+
+                if ($("#darkmode").hasClass("fa-flip-horizontal")) {
+                    $("#darkmode").removeClass("fa-flip-horizontal");
+                    $("#darkmode").addClass("fa-flip-vertical");
+                    $("#darkmode").css("color", "white");
+                    $("#NAV").css("box-shadow", "3px 3px 20px rgba(255, 255, 255, 0.5)");
+                    $("#NAV").css("background-color", "black");
+                    $("#NAVul").css("background-color", "black");
+                    $("#jersify").removeClass("shine-text");
+                    $("#jersify").addClass("shine-text2");
+                    $("#CONTAINER").css("background-color", "black");
+                    $("#BODY").css("background-color", "black");
+                    $("#CRow").css("background-color", "black");
+                    $("#CCol").css("background-color", "black");
+                    $("#CCol h2").css("color", "white");
+                    $("#CONTAINER span").css("color", "white");
+                    $("#CONTAINER label").css("color", "white");
+                    $("#orgprofilePic").css("color", "white");
+                    $("#profbg").css("background-color", "black");
+                    $("#profbg h2").css("color", "white");
+                    $("#orgprofilePic").css("border", "solid 1px white");
+                    $(".modal-content").css("background-color", "black");
+                    $(".modal-content").css("color", "white");
+                    $(".modal-content").css("box-shadow", "3px 3px 20px rgba(255, 255, 255, 0.5)");
+                    
+                }
+                else if($("#darkmode").hasClass("fa-flip-vertical")){
+                    $("#darkmode").removeClass("fa-flip-vertical");
+                    $("#darkmode").addClass("fa-flip-horizontal");
+                    $("#darkmode").css("color", "black");
+                    $("#NAV").css("box-shadow", "3px 3px 20px rgba(0, 0, 0, 0.3)");
+                    $("#NAV").css("background-color", "white");
+                    $("#NAVul").css("background-color", "white");
+                    $("#jersify").removeClass("shine-text2");
+                    $("#jersify").addClass("shine-text");
+                    $("#CONTAINER").css("background-color", "white");
+                    $("#BODY").css("background-color", "white");
+                    $("#CONTAINER span").css("color", "black");
+                    $("#CRow").css("background-color", "white");
+                    $("#profbg").css("background-color", "white");
+                    $("#profbg h2").css("color", "black");
+                    $("#CCol").css("background-color", "white");
+                    $("#CCol h2").css("color", "black");
+                    $("#CONTAINER label").css("color", "black");
+                    $("#orgprofilePic").css("color", "black");
+                    $("#orgprofilePic").css("border", "solid 1px black");
+                    $(".modal-content").css("background-color", "white");
+                    $(".modal-content").css("color", "black");
+                    $(".modal-content").css("box-shadow", "3px 3px 30px rgb(70, 70, 70)");
+                   
+                }
+ })
+        //----------------------
+        // $("#StxtEmail").blur(function(){
+        //         let obj={
+        //         type:"get",
+        //         url:"/chk-email",
+        //         data:{
+        //             StxtEmail: $("#StxtEmail").val()
+
+        //         }
+        //     }
+        //    $.ajax(obj).then(function(response){
+        //         //alert(response)
+        //        $("#Serremail").html(response)
+        //    }).fail(function(err){
+        //         alert(err);
+        //    }) 
+
+        // })
+        //---------------------------------------------------- 
+        // $("#btnAJAXorgdetailsSAVE").click(function () {
+        //     let obj = {
+        //         type: "get",
+        //         url: "/Ajax-orgdetailsSAVE",
+        //         data: {
+        //             orgEmailid: $("#orgEmailid").val(),
+        //             orgOrgname: $("#orgOrgname").val(),
+        //             orgRegnum: $("#orgRegnum").val(),
+        //             orgAddr: $("#orgAddr").val(),
+        //             orgCity: $("#orgCity").val(),
+        //             orgSports: $("#orgSports").val(),
+        //             orgWeb: $("#orgWeb").val(),
+        //             orgInsta: $("#orgInsta").val(),
+        //             orgHead: $("#orgHead").val(),
+        //             orgContact: $("#orgContact").val(),
+
+        //             orgOtherinfo:$("#orgOtherinfo").val(),}
+        //     }
+        //     $.ajax(obj).then(function (response) {
+        //         alert(response);
+
+        //     }).fail(function (err) {
+        //         alert("error");
+        //     })
+
+        // })
+        //  ----------------------------------------
+        // $("#btnAJAXorgdetailsMODIFY").click(function () {
+
+        //     let obj = {
+        //         type: "get",
+        //         url: "/login",
+        //         data: {
+        //             loginemail: $("#loginemail").val(),
+        //             loginpwd: $("#loginpwd").val(),
+
+        //         }
+        //     }
+        //     $.ajax(obj).then(function (response) {
+        //         alert(response);
+
+        //     }).fail(function (err) {
+        //         alert("error");
+        //     })
+
+        // })
+
+    })
+
+function showUser()
+          {
+            let activeUser=localStorage.getItem("activeUser");
+            
+            
+            document.getElementById("TourEmailid").value=activeUser;
+          }
+</script>
+
+<body onload="showUser();" id="BODY">
+    
+    <nav class="navbar navbar-expand-md " id="NAV" style="box-shadow: 1px 1px 10px rgb(102, 102, 102);background-color: #ffffff; ">
+  <div class="container-fluid ">
+    <div  class="me-4"
+                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                <h1 style="margin-top: 10px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
+                    class="fs-1 shine-text" id="jersify">Jersify</h1>
+            </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav " id="NAVul">
+        
+
+        
+      <li class="nav-link"> <a class="btn btnnn nav-link me-3 " style="border-radius: 30px;float: left;padding-left: 15px;padding-right: 15px;" aria-current="page" href="/">Home</a></li>
+      <li class="nav-link"><a href="/org-dash.html" class="btn btnnn nav-link me-3 "   style="float: left; border-radius: 30px;padding-left: 15px;padding-right: 15px;">Go Back</a>
+</li>
+<li class="nav-link" style="background-color: transparent;">
+                        <button type="button" class="btn"
+                            style=" line-height: 90%; padding: 10px; margin: auto; border-style: none; background-color: rgba(255, 255, 255, 0);"
+                            id="modebtn">
+                            <i class="fa-solid fa-toggle-on fa-flip-horizontal" id="darkmode"></i>
+                            <!-- <i class="fa-solid fa-toggle-off" style="color: #000000;"></i> -->
+                        </button>
+                    </li>
+      </ul>
+</div>
+</div>
+  
+   
+    
+    </div>
+  </div>
+</nav>
+
+    <div class="container " id="CONTAINER" style="background-color:#ffffff; padding-top: 25px; padding-bottom: 20px;">
+
+        <div class="row ">
+            <div class="col-md-8 offset-md-2 text-white" style="background-color:#ffffff; color: #000000;" id="profbg">
+                <center>
+                    <h2 style="color: #2c2c2c;">Tournament Details</h2>
+                </center>
+            </div>
+        </div>
+
+        <div class="col-md-8 offset-md-2">
+            <!-- form-------------- starts                     -->
+            <form method="get">
+                <div class="row" style="display: flex;">
+                    <div class="col-md-6">
+                        <label for="TourEmailid" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="TourEmailid" name="TourEmailid"  readonly/>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-md-4 g-3">
+                        <label for="TourTitle" class="form-label">Event Title</label>
+                        <input type="text" class="form-control" id="TourTitle" name="TourTitle" required/>
+                    </div>
+                    <div class="col-md-4 g-3">
+                        <label for="TourDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="TourDate" name="TourDate" placeholder="" required/>
+                    </div>
+                           
+                    <div class="col-md-4 g-3">
+                        <label for="TourTime" class="form-label">Time </label>
+                        <input type="time" class="form-control" id="TourTime" name="TourTime" placeholder="" required/>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-7 g-3">
+                        <label for="TourAdd" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="TourAdd" name="TourAdd" required/>
+                    </div>
+              
+
+                <div class="col-md-5 g-3">
+                    <label for="TourCity" class="form-label">City</label>
+                    <input type="text" class="form-control" id="TourCity" name="TourCity" required>
+                </div>
+                </div>
+                    <!-- <select id="inputState" class="form-select">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                    </select> -->
+                
+                <div class="row ">
+                    <div class="col-6 g-3">
+                        <label for="TourSports" class="form-label">Sports Category</label>
+                        <select id="TourSports" class="form-select" required>
+  <option value="">--Select a game--</option>
+  <!-- Team Sports -->
+  <option value="football">Football</option>
+  <option value="basketball">Basketball</option>
+  <option value="baseball">Baseball</option>
+  <option value="soccer">Soccer</option>
+  <option value="hockey">Hockey</option>
+  <option value="cricket">Cricket</option>
+  <!-- <option value="rugby">Rugby</option> -->
+  <option value="volleyball">Volleyball</option>
+  <option value="handball">Handball</option>
+  <!-- <option value="lacrosse">Lacrosse</option> -->
+
+  <!-- Individual Sports -->
+  <option value="tennis">Tennis</option>
+  <!-- <option value="golf">Golf</option> -->
+  <!-- <option value="boxing">Boxing</option> -->
+  <!-- <option value="wrestling">Wrestling</option> -->
+  <!-- <option value="mma">Mixed Martial Arts (MMA)</option> -->
+  <option value="badminton">Badminton</option>
+  <option value="tabletennis">Table Tennis</option>
+  <option value="archery">Archery</option>
+  <!-- <option value="fencing">Fencing</option> -->
+  <!-- <option value="track">Track and Field</option> -->
+  <!-- <option value="swimming">Swimming</option> -->
+  <!-- <option value="cycling">Cycling</option> -->
+  <!-- <option value="gymnastics">Gymnastics</option> -->
+  <!-- <option value="skiing">Skiing</option>
+  <option value="snowboarding">Snowboarding</option> -->
+
+  <!-- Emerging & Niche Sports -->
+  <!-- <option value="esports">Esports</option>
+  <option value="pickleball">Pickleball</option>
+  <option value="ultimate">Ultimate Frisbee</option> -->
+  <!-- <option value="karate">Karate</option> -->
+  <!-- <option value="judo">Judo</option> -->
+  <!-- <option value="surfing">Surfing</option> -->
+  <!-- <option value="skateboarding">Skateboarding</option>
+  <option value="climbing">Sport Climbing</option> -->
+                        </select>
+                    </div>
+                    <div class="col-3 g-3">
+                        <label for="TourMinage" class="form-label">Min. Age</label>
+                        <input type="number" class="form-control" id="TourMinage" name="TourMinage" required />
+                    </div>
+                    <div class="col-3 g-3">
+                        <label for="TourMaxage" class="form-label">Max. Age</label>
+                        <input type="number" class="form-control" id="TourMaxage" name="TourMaxage" required />
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6 g-3">
+                        <label for="TourRegDate" class="form-label">Last Date of Registration</label>
+                        <input type="date" class="form-control" id="TourRegDate" name="TourRegDate" required/>
+                    </div>
+                    <div class="col-md-3 g-3">
+                        <label for="TourFee" class="form-label">Fee</label>
+                        <input type="number" class="form-control" id="TourFee" name="TourFee" required/>
+                    </div>
+                    <div class="col-md-3 g-3">
+                        <label for="TourPrize" class="form-label">Prize Money</label>
+                        <input type="number" class="form-control" id="TourPrize" name="TourPrize" required/>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-md-6 g-3">
+                        <label for="TourContact" class="form-label">Contact</label>
+                        <input type="number" class="form-control" id="TourContact" name="TourContact" required />
+                    </div>
+                </div>
+                
+               <div class="row">
+                <div class="col-12 g-3">
+                    <button type="button" class="btn btn-primary " id="btnAjaxTourPublish" >Publish</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- modal Alert -->
+        <div class="modal fade" id="AlertModalS" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            <div
+                                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                                <h1 style="margin-top: 10px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #ffffff;"
+                                    class="fs-1 shine-text2">Jersify</h1>
+                            </div>
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: center;font-size: 110%;">
+                        <span>
+                        Thanks for Signing Up.
+                        </span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="AlertModalSerr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            <div
+                                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                                <h5 style="margin-top: 10px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color: #ffffff;"
+                                    class="fs-1 shine-text">Jersify</h5>
+                            </div>
+                        </h1>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    </div>
+                    <div class="modal-body" style="text-align: center;font-size: 110%;">
+                        <span>
+                        Tournament published sucessfully
+                        </span>
+                    </div>
+                    <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

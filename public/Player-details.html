@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Player Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        function showPrev(fileRef, prevRef) {
+            const [file] = fileRef.files;
+            if (file) {
+                prevRef.src = URL.createObjectURL(file);
+            }
+        }
+        function doLogout()
+          {  
+             localStorage.removeItem("activeUser");
+             location.href="/";
+          }
+    </script>
+    <style>
+        
+    </style>
+
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+
+        <!-- <script>
+           var mymodule = angular.module("kuchModule", []);
+
+      mymodule.controller("kuchController", function ($scope, $http) {
+            $scope.jsonArray = [];
+            $scope.email
+            $scope.Pwd
+            $scope.NewPwd
+            $scope.doCheckEmailPwd = function () {
+                //alert();
+                var url = "/do-Check-Email-Pwd?email="+$scope.email+"&Pwd="+$scope.Pwd;
+
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    alert(JSON.stringify(response.data));
+                    //$scope.jsonArray = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+            
+            $scope.doChangePwd = function () {
+                //alert();
+                var url = "/do-Change-Pwd?Email="+$scope.email+"&Pwd="+$scope.Pwd+"&NewPwd="+$scope.NewPwd;
+
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    alert(JSON.stringify(response.data));
+                    //$scope.jsonArray = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+    });        </script> -->
+
+<script>
+    // ////////////
+    function Searchonload() {
+        $('#loadingmodal').modal('show');
+        $("#CONTAINER").hide();
+         $("#CONTAINER2").hide();
+        
+        let obj = {
+            type: "get",
+            url: "/Ajax-player-Details-Search",
+            data: {
+                PEmailid: $("#PEmailid").val(),
+            }
+
+        }
+        $.ajax(obj).then(
+            function (responseJsonArray) {
+                let T=0;
+                let activeUser=localStorage.getItem("activeUser");
+                if(activeUser==""){
+                    $("#CONTAINER").show();
+                     $("#CONTAINER").css("visibility","visible");
+                    $("#CONTAINER2").hide();
+                     $("#btnAJAXPdetailsMODIFY").hide();
+                    $('#loadingmodal').modal('hide');
+
+                    return;
+                }
+                if (responseJsonArray == "No Records Found ") {
+                    
+                    $("#CONTAINER").show();
+                     $("#CONTAINER").css("visibility","visible");
+                    $("#CONTAINER2").hide();
+                    $("#btnAJAXPdetailsMODIFY").hide();
+                    $("#btnAjaxPDetailsSearch").hide();
+                    $('#loadingmodal').modal('hide');
+
+                    // $("#btnAJAXorgdetailsMODIFY").hide();
+                    // $("#btnAJAXorgdetailsSAVE").show();
+                }
+                else {
+                        let acardpicurl=responseJsonArray[0].acardpicurl;
+                        let PAddress=responseJsonArray[0].address;
+                        let profilepicurl=responseJsonArray[0].profilepicurl;
+                        let PContact=responseJsonArray[0].contact;
+                        let PGames=responseJsonArray[0].game;
+                        let Otherinfo=responseJsonArray[0].otherinfo;
+                        let name=responseJsonArray[0].name;
+                        let dob=responseJsonArray[0].dob;
+                        let gender=responseJsonArray[0].gender;
+                    // if($("#orgEmailid").val()!=""){
+                    //      $("#btnAJAXorgdetailsSAVE").remove();
+                    // }
+                    if (acardpicurl != "") {
+                        T=1;
+                    }
+                    else
+                    {
+                        T=0;
+                    }
+                    if (PAddress != "") {
+                        T=1;
+                    }
+                    else
+                    {
+                       T=0;                        
+                    }
+                    if (profilepicurl != "") {
+                        T=1;
+                    }
+                    else
+                    {
+                       T=0;
+                    }
+                    if (PContact != "") {
+                       T=1;
+                    }
+                    else
+                    {
+                        T=0;
+                    }
+                    if (PGames != "") {
+                       T=1;
+                    }
+                    else
+                    {
+                       T=0;
+                    }
+                    if (Otherinfo != "") {
+                        T=1;
+                    }
+                    else
+                    {
+                        T=0;
+                        
+                    }
+                    if (name != "") {
+                        T=1;
+                    }
+                    else
+                    {
+                        T=0;
+                    }
+                    if (dob != "") {
+                       T=1;
+                    }
+                    else
+                    {
+                        T=0;
+                    }
+                    if (gender != "") {
+                       T=1;
+                    }
+                    else
+                    {
+                        T=0;
+                    }
+                     if(T==1){
+                        $('#loadingmodal').modal('hide');
+                        $("#CONTAINER2").show();
+                        $("#Semail").val(activeUser);
+                        $("#Sname").val(name);
+                        $("#Sgender").val(gender);
+                        $("#Sdob").val(dob);
+                        $("#Sgames").val(PGames);
+                        $("#Saddress").val(PAddress);
+                        $("#Scontact").val(PContact);
+                        $("#Sother").val(Otherinfo);
+                        $("#ProfPrev2").prop("src",profilepicurl);
+                        $("#hdnP").val(profilepicurl);
+                        
+
+                     }
+                    // $("#orgOrgname").val(orgOrgname);
+                    // $("#orgRegnum").val(orgRegnum);
+                    // $("#orgAddr").val(orgAddr);
+                    // $("#orgCity").val(orgCity);
+                    // $("#orgSports").val(orgSports);
+                    // $("#orgWeb").val(orgWeb);
+                    // $("#orgInsta").val(orgInsta);
+                    // $("#orgHead").val(orgHead);
+                    // $("#orgContact").val(orgContact);
+                    // $("#orgOtherinfo").val(orgOtherinfo);
+                    // $("#hdn").val(orgprofilePic);
+                    // $("#orgPrev").prop("src", picurl);
+                    // $("#hdn").val(picurl);
+
+                }
+            }).fail(function (err) {
+                // alert("No record found")
+               $("#CONTAINER").show();
+                $("#CONTAINER").css("visibility","visible");
+                   $("#CONTAINER2").hide();
+                   $("#btnAJAXPdetailsMODIFY").hide();
+                   $('#loadingmodal').modal('hide');
+
+            })
+    }
+
+    // /////////////////////////
+    // ///////////////////////
+    // ///////////////////////////
+    $(document).ready(function () {
+        
+        let jasoos=0;
+        // $("#btnAjaxPdetailsSAVE").click(function () {
+        //     let obj = {
+        //         type: "get",
+        //         url: "/Ajax-Player-Details-Search",
+        //         data: {
+        //             orgEmailid: $("#orgEmailid").val(),
+        //         }
+
+        //     }
+        //     $.ajax(obj).then(
+        //         function (responseJsonArray) { // {   alert(responseJsonArray[0].insta);
+        //             let orgOrgname = responseJsonArray[0].orgname;
+        //             let orgRegnum = responseJsonArray[0].regnumber;
+        //             let orgAddr = responseJsonArray[0].address;
+        //             let orgCity = responseJsonArray[0].city;
+        //             let orgSports = responseJsonArray[0].sports;
+        //             let orgWeb = responseJsonArray[0].website;
+        //             let orgInsta = responseJsonArray[0].insta;
+        //             let orgHead = responseJsonArray[0].head;
+        //             let orgContact = responseJsonArray[0].contact;
+        //             let orgOtherinfo = responseJsonArray[0].otherinfo;
+        //             let picurl = responseJsonArray[0].picurl;
+        //             $("#orgOrgname").val(orgOrgname);
+        //             $("#orgRegnum").val(orgRegnum);
+        //             $("#orgAddr").val(orgAddr);
+        //             $("#orgCity").val(orgCity);
+        //             $("#orgSports").val(orgSports);
+        //             $("#orgWeb").val(orgWeb);
+        //             $("#orgInsta").val(orgInsta);
+        //             $("#orgHead").val(orgHead);
+        //             $("#orgContact").val(orgContact);
+        //             $("#orgOtherinfo").val(orgOtherinfo);
+        //             // $("#hdn").val(orgprofilePic);
+        //             $("#orgPrev").prop("src", picurl);
+
+
+
+
+        //         }).fail(function (err) { alert("No record found") })
+        // })
+        // //----------------------
+        // $("#StxtEmail").blur(function(){
+        //         let obj={
+        //         type:"get",
+        //         url:"/chk-email",
+        //         data:{
+        //             StxtEmail: $("#StxtEmail").val()
+
+        //         }
+        //     }
+        //    $.ajax(obj).then(function(response){
+        //         //alert(response)
+        //        $("#Serremail").html(response)
+        //    }).fail(function(err){
+        //         alert(err);
+        //    }) 
+
+        // })
+        //---------------------------------------------------- 
+        // $("#btnAJAXorgdetailsSAVE").click(function () {
+        //     let obj = {
+        //         type: "get",
+        //         url: "/Ajax-orgdetailsSAVE",
+        //         data: {
+        //             orgEmailid: $("#orgEmailid").val(),
+        //             orgOrgname: $("#orgOrgname").val(),
+        //             orgRegnum: $("#orgRegnum").val(),
+        //             orgAddr: $("#orgAddr").val(),
+        //             orgCity: $("#orgCity").val(),
+        //             orgSports: $("#orgSports").val(),
+        //             orgWeb: $("#orgWeb").val(),
+        //             orgInsta: $("#orgInsta").val(),
+        //             orgHead: $("#orgHead").val(),
+        //             orgContact: $("#orgContact").val(),
+
+        //             orgOtherinfo:$("#orgOtherinfo").val(),}
+        //     }
+        //     $.ajax(obj).then(function (response) {
+        //         alert(response);
+
+        //     }).fail(function (err) {
+        //         alert("error");
+        //     })
+
+        // })
+        //  ----------------------------------------
+        // $("#btnAJAXorgdetailsMODIFY").click(function () {
+
+        //     let obj = {
+        //         type: "get",
+        //         url: "/login",
+        //         data: {
+        //             loginemail: $("#loginemail").val(),
+        //             loginpwd: $("#loginpwd").val(),
+
+        //         }
+        //     }
+        //     $.ajax(obj).then(function (response) {
+        //         alert(response);
+
+        //     }).fail(function (err) {
+        //         alert("error");
+        //     })
+
+        // })
+
+//  ----------------------------------------
+        
+$("#btnAjaxPDetailsSearch").click(function(){
+   // $("#CONTAINER").hide();
+    // alert();
+                let obj={
+                    type:"get",
+                    url:"/Ajax-Player-Details-Search",
+                    data:{
+                        PEmailid: $("#PEmailid").val(),
+                    }
+
+                }
+                $.ajax(obj).then(
+                    function(responseJsonArray)
+
+                   {    //alert(responseJsonArray[0].profilepicurl);
+                        let acardpicurl=responseJsonArray[0].acardpicurl;
+                        let PAddress=responseJsonArray[0].address;
+                        let profilepicurl=responseJsonArray[0].profilepicurl;
+                        let PContact=responseJsonArray[0].contact;
+                        let PGames=responseJsonArray[0].game;
+                        let Otherinfo=responseJsonArray[0].otherinfo;
+                         $('#loadingmodal').modal('hide');
+                        $("#PAddress").val(PAddress);
+                        $("#PContact").val(PContact);
+                        $("#PGames").val(PGames);
+                        $("#POtherinfo").val(Otherinfo);
+                        // $("#hdn").val(orgprofilePic);
+                        $("#FPrev").prop("src",acardpicurl);
+                        $("#hdnA").val(acardpicurl);
+                        $("#ProfPrev").prop("src",profilepicurl);
+                        $("#hdnP").val(profilepicurl);
+                    }).fail(function(err){alert("No record found")})
+            })
+            
+
+  $("#Pwd").blur(function () {
+            
+            let obj = {
+                type: "get",
+                url: "/do-Check-Email-Pwd",
+                data: {
+                    Email: $("#email").val(),
+                    Pwd: $("#Pwd").val()
+
+
+                }
+            }
+
+            $.ajax(obj).then(
+
+                function (response) {
+                  if(response=='Good')
+                {
+                  // alert("asdfghjkl");
+                  $("#NewPwd").prop('readonly', false);
+                  if(jasoos==1)
+                {
+                  $("#btnAJAXreset").prop("disabled", false);
+                }
+                }
+
+                if(response=='Bad')
+                { 
+                  $("#btnAJAXreset").prop("disabled", "true");
+                  $("#NewPwd").prop('readonly', true);
+                  alert("Email id and password do not Match!");
+
+                }
+                    
+                }).fail(function (err) {
+                    alert(err);
+                    
+                    $("#btnAJAXreset").prop("disabled", "true");
+                })
+
+        })
+        $("#btnAJAXreset").click(function () {
+            
+            let obj = {
+                type: "get",
+                url: "/do-Change-Pwd",
+                data: {
+                    Email: $("#email").val(),
+                    Pwd: $("#Pwd").val(),
+                    NewPwd: $("#NewPwd").val()
+
+
+                }
+            }
+
+            $.ajax(obj).then(
+
+                function (response) {
+                  if(response=='Password Updated Successfully')
+                {
+                  alert(response);
+                  
+                }
+                else
+                {
+                  alert("An Error Occured");
+                  
+
+                }
+                    
+                }).fail(function (err) {
+                    alert(err);
+                })
+
+        })
+        $("#NewPwd").keydown(function () {
+                    
+                    //alert();
+                    $("#NewPwd").keyup(function () {
+                        let X = $(this).val();
+                        if (X.length >= 8) {
+                            $("#length").css("color", "green");
+                        }
+                        if (X.length < 8) {
+                            $("#length").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexUPPER = /[A-Z]/;
+                        if (regexUPPER.test(X) == true) {
+                            $("#uppercase").css("color", "green");
+                        }
+                        if (regexUPPER.test(X) == false) {
+                            $("#uppercase").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexlower = /[a-z]/;
+                        if (regexlower.test(X) == true) {
+                            $("#lowercase").css("color", "green");
+                            
+                        }
+                        if (regexlower.test(X) == false) {
+                            $("#lowercase").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexnumber = /[0-9]/;
+                        if (regexnumber.test(X) == true) {
+                            $("#number").css("color", "green");
+                        }
+                        if (regexnumber.test(X) == false) {
+                            $("#number").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            jasoos=0;
+                        }
+                        let regexspecial = /[!@#$%^&*(),.?":{}|<>]/;
+                        if (regexspecial.test(X) == true) {
+                            $("#special").css("color", "green");
+                        }
+                        if (regexspecial.test(X) == false) {
+                            $("#special").css("color", "red");
+                            $("#btnAJAXreset").prop("disabled", "true");
+                          jasoos=0;
+                        }
+
+                        if (X.length >= 8 && regexUPPER.test(X) == true && regexlower.test(X) == true && regexnumber.test(X) == true && regexspecial.test(X) == true) {
+                            jasoos=1;
+                            
+                                $("#btnAJAXreset").prop("disabled", false);
+                                
+                                
+                            
+                            // else
+                            // {
+                            //     // alert();
+                            // }
+                            
+                        }
+                        else {
+
+                            $("#btnAJAXreset").prop("disabled", "true");
+                            
+                        }
+                    })
+                })
+ $("#modebtn").click(function () {
+
+                if ($("#darkmode").hasClass("fa-flip-horizontal")) {
+                    $("#darkmode").removeClass("fa-flip-horizontal");
+                    $("#darkmode").addClass("fa-flip-vertical");
+                    $("#darkmode").css("color", "white");
+                    $("#NAV").css("box-shadow", "3px 3px 20px rgba(255, 255, 255, 0.5)");
+                    $("#NAV").css("background-color", "black");
+                    $("#NAVul").css("background-color", "black");
+                    $("#jersify").removeClass("shine-text");
+                    $("#jersify").addClass("shine-text2");
+                    $("#CONTAINER").css("background-color", "black");
+                    $("#CONTAINER2").css("background-color", "black");
+                    $("#CRow").css("background-color", "black");
+                    $("#CRow2").css("background-color", "black");
+                     $("#BODY").css("background-color", "black");
+                    $("#CCol").css("background-color", "black");
+                    $("#CCol2").css("background-color", "black");
+                    $("#CCol h2").css("color", "white");
+                    $("#txtprofile").css("color", "white");
+                    $("#CONTAINER span").css("color", "white");
+                    $("#CONTAINER label").css("color", "white");
+                    $("#AadhaarFPic").css("color", "white");
+                    $("#ProfPic").css("color", "white");
+                    $("#ProfPic").css("border", "solid 1px white");
+                    $("#AadhaarFPic").css("border", "solid 1px white");
+                }
+                else if($("#darkmode").hasClass("fa-flip-vertical")){
+                    $("#darkmode").removeClass("fa-flip-vertical");
+                    $("#darkmode").addClass("fa-flip-horizontal");
+                    $("#darkmode").css("color", "black");
+                    $("#NAV").css("box-shadow", "3px 3px 20px rgba(0, 0, 0, 0.3)");
+                    $("#NAV").css("background-color", "white");
+                    $("#NAVul").css("background-color", "white");
+                    $("#jersify").removeClass("shine-text2");
+                    $("#jersify").addClass("shine-text");
+                    $("#CONTAINER").css("background-color", "white");
+                     $("#CONTAINER2").css("background-color", "white");
+                    $("#CONTAINER span").css("color", "black");
+                    $("#txtprofile").css("color", "black");
+                    $("#CRow").css("background-color", "white");
+                    $("#CRow2").css("background-color", "white");
+                    $("#CCol").css("background-color", "white");
+                    $("#CCol2").css("background-color", "white");
+                    $("#CCol h2").css("color", "black");
+                    $("#CONTAINER label").css("color", "black");
+                    $("#AadhaarFPic").css("color", "black");
+                    $("#ProfPic").css("color", "black");
+                    $("#ProfPic").css("border", "solid 1px black");
+                    $("#AadhaarFPic").css("border", "solid 1px black");
+                     $("#BODY").css("background-color", "white");
+                    
+                    
+
+                }
+ })
+$("#Doedit").click(function(){
+             $('#loadingmodal').modal('show');
+            $("#CONTAINER2").hide();
+            $("#CONTAINER").css("visibility","visible");
+            $("#btnAJAXPdetailsSAVE").hide();
+            $("#btnsave").hide();
+            $("#btnAJAXPdetailsMODIFY").text("Save Changes");
+            $("#btnAjaxPDetailsSearch").hide();
+            $("#btnAjaxPDetailsSearch").trigger('click');
+            $("#CONTAINER").show();
+            $('#AadhaarFPic').removeAttr('required');
+            $('#ProfPic').removeAttr('required');
+
+            
+          })
+
+        })
+             function showUser()
+          {
+            let activeUser=localStorage.getItem("activeUser");
+            
+            document.getElementById("PEmailid").value=activeUser;
+            document.getElementById("email").value=activeUser;
+          }
+    
+        
+
+</script>
+
+<body onload="showUser();Searchonload();"  style="background-color: #ffffff;" id="BODY">
+    <input type="hidden" id="hdnA" name="hdnA">
+    <input type="hidden" id="hdnP" name="hdnP">
+<!-- nav -->
+<nav class="navbar navbar-expand-md " id="NAV" style="box-shadow: 1px 1px 10px rgb(102, 102, 102);background-color: #ffffff; ">
+  <div class="container-fluid ">
+    <div  class="me-4"
+                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                <h1 style="margin-top: 10px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
+                    class="fs-1 shine-text" id="jersify">Jersify</h1>
+            </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav " id="NAVul">
+        
+
+        
+      <li class="nav-link"> <a class="btn btnnn nav-link me-3 " style="border-radius: 30px;float: left;padding-left: 15px;padding-right: 15px;" aria-current="page" href="/">Home</a></li>
+      <li class="nav-link"><a href="/PlayerDash.html" class="btn btnnn nav-link me-3 "   style="float: left; border-radius: 30px;padding-left: 15px;padding-right: 15px;">Go Back</a>
+</li>
+<li class="nav-link" style="background-color: transparent;">
+                        <button type="button" class="btn"
+                            style=" line-height: 90%; padding: 10px; margin: auto; border-style: none; background-color: rgba(255, 255, 255, 0);"
+                            id="modebtn">
+                            <i class="fa-solid fa-toggle-on fa-flip-horizontal" id="darkmode"></i>
+                            <!-- <i class="fa-solid fa-toggle-off" style="color: #000000;"></i> -->
+                        </button>
+                    </li>
+      </ul>
+</div>
+</div>
+  
+   
+    
+    </div>
+  </div>
+</nav>
+
+
+
+
+<!-- ends -->
+  
+    <div class="container " style="background-color: #ffffff; padding-top: 25px; padding-bottom: 20px; visibility: hidden;" id="CONTAINER">
+
+        <div class="row " id="CRow">
+            <div class="col-md-8 offset-md-2 text-white" style="background-color:#ffffff; color: #2c2c2c;" id="CCol">
+                <center>
+                    <h2 style="color: #2c2c2c; margin-top: 10px;">Profile Page</h2>
+                </center>
+            </div>
+        </div>
+
+        <div class="col-md-8 offset-md-2">
+            <!-- form-------------- starts                     -->
+            <form action="/PlayerdetailsSAVE" method="post" enctype="multipart/form-data" >
+                <div class="row" style="display: flex;">
+                    <div class="col-md-6">
+                        <label for="PEmailid" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="PEmailid" name="PEmailid"  readonly/>
+                    </div>
+                    <div class="col-2 ">
+                        <input type="button" value="Search"
+                            style="margin-top: 32px; height: 35px;border-radius: 30px;float: left;padding-left: 15px;padding-right: 15px;" class="btn btnnn"
+                            id="btnAjaxPDetailsSearch">
+                    </div>
+                </div>
+                <!-- <span>Profile Pic.</span> -->
+                <div class="row mt-2">
+                    <div class="col-md-3"><span>Aadhaar Front Pic.</span></div>
+                    <div class="col-md-4 "><div class="col-md-3 "><input type="file" name="AadhaarFPic" id="AadhaarFPic" required
+                            onchange="showPrev(AadhaarFPic,FPrev)" style="border-radius: 10px; border: solid 1px black;">
+                    </div></div>
+                    <div class="col-md-4"><div class="card" style="width: 10rem; padding: 0%;margin-left: 10px; ">
+                            <img src="pics/2dadhaar.png" class="card-img-top" alt="..." id="FPrev" >
+                        </div></div>
+                    
+                </div>
+                <!-- imgs start -->
+                 <div class="row ">
+                    <div class="col-md-3"><span>Profile Pic.</span></div>
+                    <div class="col-md-4 "><input type="file" name="ProfPic" id="ProfPic" required
+                            onchange="showPrev(ProfPic,ProfPrev)" style="border-radius: 10px; border: solid 1px black;">
+                    </div>
+                    <div class="col-md-4"><div class="card" style="width: 10rem; padding: 0%;margin-left: 10px; ">
+                            <img src="pics/user_9650503.png" class="card-img-top" alt="..." id="ProfPrev">
+                        </div></div>
+                    </div>
+                
+                
+                <!-- <div class="row">
+                    <div class="col-md-4">
+                        <div class="card" style="width: 10rem; padding: 0%;margin-left: 10px;">
+                            <img src="pics/Gemini_Generated_Image_1.PNG" class="card-img-top" alt="..." id="FPrev">
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="card" style="width: 10rem; padding: 0%;margin-left: 10px; ">
+                            <img src="pics/Gemini_Generated_Image_1.PNG" class="card-img-top" alt="..." id="ProfPrev">
+                        </div>
+                    </div>
+                </div> -->
+                <!-- imgs ends -->
+                <div class="row ">
+                    <div class="col-md-6">
+                    <label for="orgSports" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="PAddress" name="PAddress" required>
+                   
+                </div>
+                    <div class="col-4">
+                        <label for="orgInsta" class="form-label">Contact</label>
+                        <input type="text" class="form-control" id="PContact" name="PContact"  required/>
+                    </div>
+                </div>
+                
+                <div class="row">
+                <div class="col-md-6">
+                        <label for="orgContact" class="form-label">Games You  Play</label>
+                        <input type="text" class="form-control" id="PGames" name="PGames"  required/>
+                        </div></div>
+                                <div class="col-md-12" style="margin-top: 8px;">
+                    <label for="POtherinfo" class="form-label">Other info</label>
+                    <input type="text" class="form-control col-md-12" id="POtherinfo" name="POtherinfo" required />
+                </div>
+                
+                <div class="col-12" style="margin-top: 10px;">
+                    <button class="btn btn-primary" id="btnsave"><input type="submit" id="btnAJAXPdetailsSAVE" name="btnAjaxPdetailsSAVE" value="Save" style="background-color:inherit;border-style: none;color: white;"></button>
+                    <button type="submit" class="btn btn-primary" style="margin-left: 20px;" name="btnAJAXPdetailsMODIFY" id="btnAJAXPdetailsMODIFY" formaction="/PDetailsModify">Modify</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container" style="background-color: #ffffff; padding-top: 25px; padding-bottom: 20px; " id="CONTAINER2">
+        <div class="row " id="CRow2">
+            <div class="col-md-8 offset-md-2 text-white" style="background-color:#ffffff; color: #2c2c2c;" id="CCol2">
+                <center>
+                    <h2 style="color: #000000; margin-top: 10px;" id="txtprofile">Profile Page</h2>
+                </center>
+            </div>
+        </div>
+
+        <div class="col-md-8 offset-md-2">
+            <!-- form-------------- starts                     -->
+             <div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Email id</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Semail" disabled>
+</div>
+<div class="input-group " style="width: 10rem;">
+  <span class="input-group-text" id="basic-addon1" style="width: 10rem;" >Profile Pic</span></div>
+ <div class="input-group mb-3"> <div class="card" style="width: 10rem; padding: 0%;">
+                            <img src="..." class="card-img-top" alt="..." id="ProfPrev2">
+                        </div>
+                        </div>
+
+
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Name</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Sname" disabled>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Gender</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Sgender" disabled>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Date of Birth</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Sdob" disabled>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Games</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Sgames" disabled>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Address</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Saddress" disabled>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Contact</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Scontact" disabled>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Other details</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" id="Sother" disabled>
+</div>
+<div class="input-group mb-3">
+    <button class="btn btnnn" id="Doedit">Edit</button>
+  </div>
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loadingmodal">
+  Launch static backdrop modal
+</button> -->
+ </div>
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+        <!-- loading modal -->
+<div class="modal " id="loadingmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-fullscreen-sm-down  modal-dialog-centered d-flex justify-content-center" >
+    
+       <div class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+      </div>
+      
+    </div>
+<!-- loading modal ends -->
+       <!-- modal -==-=- ===== -->
+  <div class="modal fade" id="ChangePass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">Email id</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="email" name="email" readonly>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">Old Password</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="Pwd" name="Pwd">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">New Password</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="NewPwd" name="NewPwd" readonly>
+            </div>
+             <div class="input-group-mb-2 mt-2" style="display: flex;">
+              <ul class="requirements" style="list-style-type: none;">
+                                    <li id="length"><i class="fa-solid fa-check" style="color: #000000;"></i> At least 8
+                                        characters</li>
+                                    <li id="uppercase"><i class="fa-solid fa-check" style="color: #000000;"></i> At
+                                        least one uppercase letter</li>
+                                    <li id="lowercase"><i class="fa-solid fa-check" style="color: #000000;"></i> At
+                                        least one lowercase letter</li>
+                                    <li id="number"><i class="fa-solid fa-check" style="color: #000000;"></i> At least
+                                        one number</li>
+                                    <li id="special"><i class="fa-solid fa-check" style="color: #000000;"></i> At least
+                                        one special character (!@#$%^&*)</li>
+                                </ul>
+
+             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnAJAXreset" disabled>Reset</button>
+          </div>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</body>
+<script>
+    $("#PEmailid").blur(function () {
+            if ($("#PEmailid").val() == "") {
+                $("#PEmailid").css("border", "solid 1px red");
+
+            }
+            if ($("#PEmailid").val() != "") {
+                $("#PEmailid").css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#AadhaarFPic").blur(function () {
+            if ($("#AadhaarFPic").val() == "") {
+                $("#AadhaarFPic").css("border", "solid 1px red");
+
+            }
+            if ($("#AadhaarFPic").val() != "") {
+                $("#AadhaarFPic").css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#ProfPic").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#PAddress").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#PContact").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        ////////////////////////////////////////
+        $("#PGames").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+
+        ////////////////////////////////////////
+        $("#POtherinfo").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+</script>
+<style>
+    .btnnn {
+        transition: all 0.4s;
+        background-color: #6e6e6e;
+        
+    }
+
+    .btnnn:hover {
+        transform: scale(1.1);
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+    }
+    .shine-text {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #606060, rgb(34, 34, 34), #6e6e6e);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+    .shine-text2 {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #9d9d9d, rgb(196, 196, 196), #9f9f9f);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+</style>
+
+
+</html>

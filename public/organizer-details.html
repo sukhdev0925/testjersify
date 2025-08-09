@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Organizer Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script>
+        function showPrev(fileRef, prevRef) {
+            const [file] = fileRef.files;
+            if (file) {
+                prevRef.src = URL.createObjectURL(file);
+            }
+        }
+        function showUser() {
+            let activeUser = localStorage.getItem("activeUser");
+
+            // document.getElementById("welcome").innerHTML=activeUser;
+            document.getElementById("orgEmailid").value = activeUser;
+        }
+        function Searchonloadorg() {
+            $('#loadingmodal').modal('show');
+            $("#CONTAINER").hide();
+            $("#CONTAINER2").hide();
+
+            let obj = {
+                type: "get",
+                url: "/Ajax-Org-Details-Search",
+                data: {
+                    orgEmailid: $("#orgEmailid").val(),
+                }
+
+            }
+            $.ajax(obj).then(
+                function (responseJsonArray) {
+                    
+                    let T = 0;
+                    let activeUser = localStorage.getItem("activeUser");
+                    if (activeUser == "") {
+                        $("#CONTAINER").hide();
+                        $("#CONTAINER").css("visibility", "visible");
+                        $("#CONTAINER2").hide();
+                        //$("#btnAJAXorgdetailsMODIFY").hide();
+                        $('#loadingmodal').modal('show');
+
+                        return;
+                    }
+                    if (responseJsonArray == "No Records Found ") {
+                        $("#CONTAINER").show();
+                        $("#CONTAINER").css("visibility", "visible");
+                        $("#CONTAINER2").hide();
+                        $("#btnAJAXorgdetailsMODIFY").hide();
+                        $('#loadingmodal').modal('hide');
+                        $("#btnAjaxOrgDetailsSearch").hide();
+                        
+
+                        // $("#btnAJAXorgdetailsMODIFY").hide();
+                        // $("#btnAJAXorgdetailsSAVE").show();
+                    }
+                    else {
+                        
+                        let orgOrgname = responseJsonArray[0].orgname;
+                        let orgRegnum = responseJsonArray[0].regnumber;
+                        let orgAddr = responseJsonArray[0].address;
+                        let orgCity = responseJsonArray[0].city;
+                        let orgSports = responseJsonArray[0].sports;
+                        let orgWeb = responseJsonArray[0].website;
+                        let orgInsta = responseJsonArray[0].insta;
+                        let orgHead = responseJsonArray[0].head;
+                        let orgContact = responseJsonArray[0].contact;
+                        let orgOtherinfo = responseJsonArray[0].otherinfo;
+                        let picurl = responseJsonArray[0].picurl;
+                        // if($("#orgEmailid").val()!=""){
+                        //      $("#btnAJAXorgdetailsSAVE").remove();
+                        // }
+                        if (orgOrgname != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgRegnum != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgAddr != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgCity != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgSports != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        // if (orgWeb != "") {
+                        //     T=1;
+                        // }
+                        // else
+                        // {
+                        //     T=0;
+
+                        // }
+                        if (orgInsta != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgHead != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgContact != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (orgOtherinfo != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+                        if (picurl != "") {
+                            T = 1;
+                        }
+                        else {
+                            T = 0;
+                        }
+
+
+                        if (T == 1) {
+                            $('#loadingmodal').modal('hide');
+                            $("#CONTAINER2").show();
+                            let tempEmailid = $("#orgEmailid").val();
+                            $("#orgemail").val(tempEmailid);
+                            $("#orgname").val(orgOrgname);
+                            $("#orgregnum").val(orgRegnum);
+                            $("#orgaddress").val(orgAddr);
+                            $("#orgcity").val(orgCity);
+                            $("#orgsports").val(orgSports);
+
+                            $("#orginsta").val(orgInsta);
+                            $("#orghead").val(orgHead);
+                            $("#orgcontact").val(orgContact);
+                            $("#orgotherinfo").val(orgOtherinfo);
+                            $("#hdn").val(orgprofilePic);
+                            $("#ProfPrev2").prop("src", picurl);
+                            $("#hdn").val(picurl);
+                            if (orgWeb == "") {
+                                $("#webid").remove();
+                            }
+                            if (orgWeb != "") {
+                                $("#orgwebsite").val(orgWeb);
+                            }
+
+
+                        }
+                        if(T==0){
+                            $("#CONTAINER").show();
+                    $("#CONTAINER").css("visibility", "visible");
+                    $("#CONTAINER2").hide();
+                    $("#btnAJAXorgdetailsMODIFY").hide();
+                    $('#loadingmodal').modal('hide');
+                        }
+
+
+                    }
+                }).fail(function (err) {
+                   // alert("No record found")
+                    $("#CONTAINER").show();
+                    $("#CONTAINER").css("visibility", "visible");
+                    $("#CONTAINER2").hide();
+                    $("#btnAJAXorgdetailsMODIFY").hide();
+                    $('#loadingmodal').modal('hide');
+
+                })
+        }
+
+    </script>
+
+</head>
+<script>
+
+    function Searchonload() {
+        $("#btnAJAXorgdetailsMODIFY").hide();
+        $("#btnAJAXorgdetailsSAVE").hide();
+        let obj = {
+            type: "get",
+            url: "/Ajax-Org-Details-Search",
+            data: {
+                orgEmailid: $("#orgEmailid").val(),
+            }
+
+        }
+        $.ajax(obj).then(
+            function (responseJsonArray) {
+                if (responseJsonArray == "No Records Found ") {
+                    $("#btnAJAXorgdetailsMODIFY").hide();
+                    $("#btnAJAXorgdetailsSAVE").show();
+                }
+                else {
+                    
+                    let orgOrgname = responseJsonArray[0].orgname;
+                    let orgRegnum = responseJsonArray[0].regnumber;
+                    let orgAddr = responseJsonArray[0].address;
+                    let orgCity = responseJsonArray[0].city;
+                    let orgSports = responseJsonArray[0].sports;
+                    let orgWeb = responseJsonArray[0].website;
+                    let orgInsta = responseJsonArray[0].insta;
+                    let orgHead = responseJsonArray[0].head;
+                    let orgContact = responseJsonArray[0].contact;
+                    let orgOtherinfo = responseJsonArray[0].otherinfo;
+                    let picurl = responseJsonArray[0].picurl;
+                    // if($("#orgEmailid").val()!=""){
+                    //      $("#btnAJAXorgdetailsSAVE").remove();
+                    // }
+                    if (orgOrgname != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+                    }
+                    if (orgRegnum != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+
+                    }
+                    if (orgAddr != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+                    }
+                    if (orgCity != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+                    }
+                    if (orgSports != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+                    }
+                    if (orgInsta != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+
+                    }
+                    if (orgHead != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+                    }
+                    if (orgContact != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+                    }
+                    if (picurl != "") {
+                        $("#btnAJAXorgdetailsSAVE").hide();
+                        $("#btnAJAXorgdetailsMODIFY").show();
+                        $('#orgprofilePic').removeAttr('required');
+
+                    }
+                    $("#orgOrgname").val(orgOrgname);
+                    $("#orgRegnum").val(orgRegnum);
+                    $("#orgAddr").val(orgAddr);
+                    $("#orgCity").val(orgCity);
+                    $("#orgSports").val(orgSports);
+                    $("#orgWeb").val(orgWeb);
+                    $("#orgInsta").val(orgInsta);
+                    $("#orgHead").val(orgHead);
+                    $("#orgContact").val(orgContact);
+                    $("#orgOtherinfo").val(orgOtherinfo);
+                    // $("#hdn").val(orgprofilePic);
+                    $("#orgPrev").prop("src", picurl);
+                    $("#hdn").val(picurl);
+
+                }
+            }).fail(function (err) {
+                // alert("No record found")
+                if (responseJsonArray == "No Records Found ") {
+                    // alert(responseJsonArray[0]+"igga");
+                    $("#btnAJAXorgdetailsMODIFY").remove();
+                    $("#btnAJAXorgdetailsSAVE").show();
+                }
+            })
+    }
+
+
+
+    $(document).ready(function () {
+        $("#btnAjaxOrgDetailsSearch").click(function () {
+            let obj = {
+                type: "get",
+                url: "/Ajax-Org-Details-Search",
+                data: {
+                    orgEmailid: $("#orgEmailid").val(),
+                }
+
+            }
+            $.ajax(obj).then(
+                function (responseJsonArray) { // {   alert(responseJsonArray[0].insta);
+                    let orgOrgname = responseJsonArray[0].orgname;
+                    let orgRegnum = responseJsonArray[0].regnumber;
+                    let orgAddr = responseJsonArray[0].address;
+                    let orgCity = responseJsonArray[0].city;
+                    let orgSports = responseJsonArray[0].sports;
+                    let orgWeb = responseJsonArray[0].website;
+                    let orgInsta = responseJsonArray[0].insta;
+                    let orgHead = responseJsonArray[0].head;
+                    let orgContact = responseJsonArray[0].contact;
+                    let orgOtherinfo = responseJsonArray[0].otherinfo;
+                    let picurl = responseJsonArray[0].picurl;
+                    $('#loadingmodal').modal('hide');
+                    $("#orgOrgname").val(orgOrgname);
+                    $("#orgRegnum").val(orgRegnum);
+                    $("#orgAddr").val(orgAddr);
+                    $("#orgCity").val(orgCity);
+                    $("#orgSports").val(orgSports);
+                    $("#orgWeb").val(orgWeb);
+                    $("#orgInsta").val(orgInsta);
+                    $("#orgHead").val(orgHead);
+                    $("#orgContact").val(orgContact);
+                    $("#orgOtherinfo").val(orgOtherinfo);
+                    // $("#hdn").val(orgprofilePic);
+                    $("#orgPrev").prop("src", picurl);
+                    $("#hdn").val(picurl);
+
+
+                }).fail(function (err) { 
+                    alert("No record found") 
+                    })
+        })
+
+
+
+
+
+        // $("#btnAjaxOrgDetailsSAVE").click(function () {
+        //     let obj = {
+        //         type: "post",
+        //         url: "/Ajax-orgdetailsSAVE",
+        //         data: {
+        //             orgEmailid: $("#orgEmailid").val(),
+        //             orgOrgname: $("#orgOrgname").val(),
+        //             orgRegnum: $("#orgRegnum").val(),
+        //             orgAddr: $("#orgAddr").val(),
+        //             orgCity: $("#orgCity").val(),
+        //             orgSports: $("#orgSports").val(),
+        //             orgWeb: $("#orgWeb").val(),
+        //             orgInsta: $("#orgInsta").val(),
+        //             orgHead: $("#orgHead").val(),
+        //             orgContact: $("#orgContact").val(),
+        //             orgOtherinfo:$("#orgOtherinfo").val(),
+        //             picurl:$("#orgprofilePic").val(),
+        //         }
+
+        //     }
+        //     $.ajax(obj).then(
+        //         function (responseJsonArray) { // {   alert(responseJsonArray[0].insta);
+        //             alert(responseJsonArray);
+        //         }).fail(function (err) { alert("No record found") })
+        // })
+
+
+
+
+
+
+        $("#modebtn").click(function () {
+
+            if ($("#darkmode").hasClass("fa-flip-horizontal")) {
+                $("#darkmode").removeClass("fa-flip-horizontal");
+                $("#darkmode").addClass("fa-flip-vertical");
+                $("#darkmode").css("color", "white");
+                $("#NAV").css("box-shadow", "3px 3px 20px rgba(255, 255, 255, 0.5)");
+                $("#NAV").css("background-color", "black");
+                $("#NAVul").css("background-color", "black");
+                $("#jersify").removeClass("shine-text");
+                $("#jersify").addClass("shine-text2");
+                $("#CONTAINER").css("background-color", "black");
+                 $("#CONTAINER2").css("background-color", "black");
+                  $("#txtprofile").css("color", "white");
+                $("#BODY").css("background-color", "black");
+                $("#CRow").css("background-color", "black");
+                $("#CCol").css("background-color", "black");
+                 $("#CRow2").css("background-color", "black");
+                 $("#CCol2").css("background-color", "black");
+                $("#CCol h2").css("color", "white");
+                $("#CONTAINER span").css("color", "white");
+                $("#CONTAINER label").css("color", "white");
+                $("#orgprofilePic").css("color", "white");
+                $("#profbg").css("background-color", "black");
+                $("#profbg h2").css("color", "white");
+                $("#orgprofilePic").css("border", "solid 1px white");
+
+            }
+            else if ($("#darkmode").hasClass("fa-flip-vertical")) {
+                $("#darkmode").removeClass("fa-flip-vertical");
+                $("#darkmode").addClass("fa-flip-horizontal");
+                $("#darkmode").css("color", "black");
+                $("#NAV").css("box-shadow", "3px 3px 20px rgba(0, 0, 0, 0.3)");
+                $("#NAV").css("background-color", "white");
+                $("#NAVul").css("background-color", "white");
+                $("#jersify").removeClass("shine-text2");
+                    $("#txtprofile").css("color", "black");
+                $("#jersify").addClass("shine-text");
+                $("#CONTAINER").css("background-color", "white");
+                $("#BODY").css("background-color", "white");
+                $("#CONTAINER span").css("color", "black");
+                $("#CONTAINER2").css("background-color", "white");
+                $("#CRow").css("background-color", "white");
+                $("#CRow2").css("background-color", "white");
+                $("#profbg").css("background-color", "white");
+                $("#profbg h2").css("color", "black");
+                $("#CCol").css("background-color", "white");
+                $("#CCol2").css("background-color", "white");
+                $("#CCol h2").css("color", "black");
+                $("#CONTAINER label").css("color", "black");
+                $("#orgprofilePic").css("color", "black");
+                $("#orgprofilePic").css("border", "solid 1px black");
+
+
+
+            }
+        })
+        //----------------------
+        // $("#StxtEmail").blur(function(){
+        //         let obj={
+        //         type:"get",
+        //         url:"/chk-email",
+        //         data:{
+        //             StxtEmail: $("#StxtEmail").val()
+
+        //         }
+        //     }
+        //    $.ajax(obj).then(function(response){
+        //         //alert(response)
+        //        $("#Serremail").html(response)
+        //    }).fail(function(err){
+        //         alert(err);
+        //    }) 
+
+        // })
+        //---------------------------------------------------- 
+        $("#Doedit").click(function(){
+             $('#loadingmodal').modal('show');
+            $("#CONTAINER2").hide();
+            $("#CONTAINER").css("visibility","visible");
+            $("#btnAJAXorgdetailsSAVE").hide();
+            //$("#btnsave").hide();
+            $("#btnAJAXorgdetailsMODIFY").text("Save Changes");
+            $("#btnAjaxOrgDetailsSearch").hide();
+            $("#btnAjaxOrgDetailsSearch").trigger('click');
+            $("#CONTAINER").show();
+            $('#orgprofilePic').removeAttr('required');
+            // $('#ProfPic').removeAttr('required');
+
+            
+          })
+        $("#btnAJAXorgdetailsSAVE").click(function () {
+            let tempjasoos = 0;
+
+            if ($("#orgEmailid").val() == "") {
+                $("#orgEmailid").css("border", "solid 1px red");
+                tempjasoos = 1;
+
+                // return;
+            }
+            if ($("#orgOrgname").val() == "") {
+                $("#orgOrgname").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgRegnum").val() == "") {
+                $("#orgRegnum").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgAddr").val() == "") {
+                $("#orgAddr").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgCity").val() == "") {
+                $("#orgCity").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgSports").val() == "") {
+                $("#orgSports").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgInsta").val() == "") {
+                $("#orgInsta").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgHead").val() == "") {
+                $("#orgHead").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#TourRegDate").val() == "") {
+                $("#TourRegDate").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            if ($("#orgContact").val() == "") {
+                $("#orgContact").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+
+            if ($("#orgprofilePic").val() == "") {
+                $("#orgprofilePic").css("border", "solid 1px red");
+                tempjasoos = 1;
+                // return;
+            }
+            // if ($("#orgPrev").val() == "") {
+            //     $("#orgPrev").css("border", "solid 1px red");
+            //     tempjasoos = 1;
+            //     // return;
+            // }
+
+            // if(tempjasoos==0){
+            // }
+            // else{
+            //     return;
+            // }
+        })
+
+        $("#orgEmailid").blur(function () {
+            if ($("#orgEmailid").val() == "") {
+                $("#orgEmailid").css("border", "solid 1px red");
+
+            }
+            if ($("#orgEmailid").val() != "") {
+                $("#orgEmailid").css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#orgOrgname").blur(function () {
+            if ($("#orgOrgname").val() == "") {
+                $("#orgOrgname").css("border", "solid 1px red");
+
+            }
+            if ($("#orgOrgname").val() != "") {
+                $("#orgOrgname").css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#orgRegnum").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#orgAddr").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        // /////////////////////////////
+        $("#orgCity").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        ////////////////////////////////////////
+        $("#orgSports").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+
+        ////////////////////////////////////////
+        $("#orgInsta").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        ////////////////////////////////////////
+        $("#orgHead").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+
+        ///////////////////////////////////////
+        $("#orgContact").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px red");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+
+        ///////////////////////////////////////
+        $("#orgWeb").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px black");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+        $("#orgprofilePic").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "solid 1px black");
+
+            }
+            if ($(this).val() != "") {
+                $(this).css("border", "solid 1px green");
+
+            }
+        })
+
+        //     let obj = {
+        //         type: "get",
+        //         url: "/Ajax-orgdetailsSAVE",
+        //         data: {
+        //             orgEmailid: $("#orgEmailid").val(),
+        //             orgOrgname: $("#orgOrgname").val(),
+        //             orgRegnum: $("#orgRegnum").val(),
+        //             orgAddr: $("#orgAddr").val(),
+        //             orgCity: $("#orgCity").val(),
+        //             orgSports: $("#orgSports").val(),
+        //             orgWeb: $("#orgWeb").val(),
+        //             orgInsta: $("#orgInsta").val(),
+        //             orgHead: $("#orgHead").val(),
+        //             orgContact: $("#orgContact").val(),
+
+        //             orgOtherinfo:$("#orgOtherinfo").val(),}
+        //     }
+        //     $.ajax(obj).then(function (response) {
+        //         alert(response);
+
+        //     }).fail(function (err) {
+        //         alert("error");
+        //     })
+
+        // })
+        //  ----------------------------------------
+        // $("#btnAJAXorgdetailsMODIFY").click(function () {
+
+        //     let obj = {
+        //         type: "get",
+        //         url: "/login",
+        //         data: {
+        //             loginemail: $("#loginemail").val(),
+        //             loginpwd: $("#loginpwd").val(),
+
+        //         }
+        //     }
+        //     $.ajax(obj).then(function (response) {
+        //         alert(response);
+
+        //     }).fail(function (err) {
+        //         alert("error");
+        //     })
+
+        // })
+
+    })
+
+
+
+</script>
+<style>
+    .btnnn {
+        transition: all 0.4s;
+        background-color: #6e6e6e;
+
+    }
+
+    .btnnn:hover {
+        transform: scale(1.1);
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+    }
+
+    .shine-text {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #606060, rgb(34, 34, 34), #6e6e6e);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    .shine-text2 {
+        font-size: 3rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(90deg, #9d9d9d, rgb(196, 196, 196), #9f9f9f);
+        background-size: 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s infinite ease-in-out;
+    }
+
+
+    @keyframes shine {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+</style>
+
+<body onload="showUser(); Searchonloadorg(); " id="BODY">
+    <nav class="navbar navbar-expand-md " id="NAV"
+        style="box-shadow: 1px 1px 10px rgb(102, 102, 102);background-color: #ffffff; ">
+        <div class="container-fluid ">
+            <div class="me-4"
+                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                <h1 style="margin-top: 10px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
+                    class="fs-1 shine-text" id="jersify">Jersify</h1>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="navbar-nav " id="NAVul">
+
+
+
+                    <li class="nav-link"> <a class="btn btnnn nav-link me-3 "
+                            style="border-radius: 30px;float: left;padding-left: 15px;padding-right: 15px;"
+                            aria-current="page" href="/">Home</a></li>
+                    <li class="nav-link"><a href="/org-dash.html" class="btn btnnn nav-link me-3 "
+                            style="float: left; border-radius: 30px;padding-left: 15px;padding-right: 15px;">Go Back</a>
+                    </li>
+                    <li class="nav-link" style="background-color: transparent;">
+                        <button type="button" class="btn"
+                            style=" line-height: 90%; padding: 10px; margin: auto; border-style: none; background-color: rgba(255, 255, 255, 0);"
+                            id="modebtn">
+                            <i class="fa-solid fa-toggle-on fa-flip-horizontal" id="darkmode"></i>
+                            <!-- <i class="fa-solid fa-toggle-off" style="color: #000000;"></i> -->
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        </div>
+        </div>
+    </nav>
+
+    <div class="container " style="background-color:#ffffff; padding-top: 25px; padding-bottom: 20px;" id="CONTAINER">
+
+        <div class="row ">
+            <div class="col-md-8 offset-md-2 text-white" style="background-color:#ffffff; color: #2c2c2c;" id="profbg">
+                <center>
+                    <h2 style="color: #2c2c2c;">Profile Page</h2>
+                </center>
+            </div>
+        </div>
+
+        <div class="col-md-8 offset-md-2">
+            <!-- form-------------- starts                       -->
+            <form action="/Ajax-orgdetailsSAVE" method="post" enctype="multipart/form-data">
+                <div class="row" style="display: flex;">
+                    <div class="col-md-6">
+                        <label for="orgEmailid" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="orgEmailid" name="orgEmailid" readonly />
+                    </div>
+                    <div class="col-2 ">
+                        <input type="button" value="Search" style="margin-top: 32px; height: 35px;" class="btn btnnn"
+                            id="btnAjaxOrgDetailsSearch">
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <label for="orgOrgname" class="form-label">Organizer's Name</label>
+                        <input type="text" class="form-control" id="orgOrgname" name="orgOrgname" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="orgRegnum" class="form-label">Registration Number</label>
+                        <input type="text" class="form-control" id="orgRegnum" name="orgRegnum" placeholder=""
+                            required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="orgAddr" class="form-label">Address </label>
+                        <input type="text" class="form-control" id="orgAddr" name="orgAddr" placeholder="" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="orgCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="orgCity" name="orgCity" required />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="orgSports" class="form-label">Sports</label>
+                    <input type="text" class="form-control" id="orgSports" name="orgSports" required>
+                    <!-- <select id="inputState" class="form-select">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                    </select> -->
+                </div>
+                <div class="row ">
+                    <div class="col-8">
+                        <label for="orgWeb" class="form-label">Website (optional)</label>
+                        <input type="text" class="form-control" id="orgWeb" name="orgWeb" />
+                    </div>
+                    <div class="col-4">
+                        <label for="orgInsta" class="form-label">Insta</label>
+                        <input type="text" class="form-control" id="orgInsta" name="orgInsta" required />
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <label for="orgHead" class="form-label">Org. Head</label>
+                        <input type="text" class="form-control" id="orgHead" name="orgHead" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="orgContact" class="form-label">Contact Number</label>
+                        <input type="text" class="form-control" id="orgContact" name="orgContact" required />
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-md-4"><span>Registration Certificate Pic.</span></div>
+                </div>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-3"><input type="file" name="orgprofilePic" id="orgprofilePic"
+                            onchange="showPrev(orgprofilePic,orgPrev)" required
+                            style="border-radius: 10px; border: solid 1px black;"> </div>
+
+
+                    <!-- <div class=" col-sm-3" style="color: #000000;border: solid 1px black; border-radius: 10px;"></div> -->
+
+
+                </div>
+                <div class="row">
+                    <div class="card" style="width: 10rem; padding: 0%;margin-left: 10px;">
+                        <img src="pics/form_1286032.png" class="card-img-top" alt="..." id="orgPrev">
+
+
+
+                    </div>
+                </div>
+                <div class="col-md-12 mb-2" style="margin-top: 8px;">
+                    <label for="orgOtherinfo" class="form-label">Other info</label>
+                    <input type="text" class="form-control col-md-12" id="orgOtherinfo" name="orgOtherinfo" />
+                </div>
+                <!-- <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" />
+                        <label class="form-check-label" for="gridCheck">
+                            I agree to the terms of ..... and the PRIVACY POLICY.
+                        </label>
+                    </div>
+                </div> -->
+                <div class="col-12">
+                    <input type="submit" class="btn btn-primary" id="btnAJAXorgdetailsSAVE" name="btnAJAXorgdetailsSAVE"
+                        value="SAVE">
+                    <button type="submit" class="btn btn-primary" style="margin-left: 20px;"
+                        name="btnAJAXorgdetailsMODIFY" id="btnAJAXorgdetailsMODIFY"
+                        formaction="/OrgDetailsModify">SAVE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container" style="background-color: #ffffff; padding-top: 25px; padding-bottom: 20px; " id="CONTAINER2">
+        <div class="row " id="CRow2">
+            <div class="col-md-8 offset-md-2 text-white" style="background-color:#ffffff; color: #2c2c2c;" id="CCol2">
+                <center>
+                    <h2 style="color: #000000; margin-top: 10px;" id="txtprofile">Profile Page</h2>
+                </center>
+            </div>
+        </div>
+
+        <div class="col-md-8 offset-md-2">
+            <!-- form-------------- starts                     -->
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Email id</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgemail" disabled>
+            </div>
+            <div class="input-group " style="width: 10rem;">
+                <span class="input-group-text" id="basic-addon1" style="width: fit-content;">Registration Certificate
+                    Pic.</span>
+            </div>
+            <div class="input-group mb-3">
+                <div class="card" style="width: 10rem; padding: 0%;">
+                    <img src="..." class="card-img-top" alt="..." id="ProfPrev2">
+                </div>
+            </div>
+
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Org. Name</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgname" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Registration Number</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgregnum" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Address</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgaddress" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">City</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgcity" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Sports</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgsports" disabled>
+            </div>
+            <div class="input-group mb-3" id="webid">
+                <span class="input-group-text" id="basic-addon1" >Website</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgwebsite" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Insta</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orginsta" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Org. Head</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orghead" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Contact Number</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgcontact" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Other info</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                    id="orgotherinfo" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <button class="btn btnnn" id="Doedit">Edit</button>
+            </div>
+            <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loadingmodal">
+  Launch static backdrop modal
+</button> -->
+        </div>
+    </div>
+
+
+    <!-- loading modal -->
+    <div class="modal " id="loadingmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div
+            class="modal-dialog modal-dialog modal-fullscreen-sm-down  modal-dialog-centered d-flex justify-content-center">
+
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+    </div>
+    <!-- loading modal ends -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

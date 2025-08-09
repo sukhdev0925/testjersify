@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+  <!-- for bootstrap css -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"></script> <!-- for bootstrap js -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" /><!--  for jQuery -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<!-- AJAX SCRIPT STARTS -->
+<script>
+  $(document).ready(function () {
+    //----------------------
+    $("#StxtEmail").blur(function () {
+      let obj = {
+        type: "get",
+        url: "/chk-email",
+        data: {
+          StxtEmail: $("#StxtEmail").val()
+
+        }
+      }
+      $.ajax(obj).then(function (response) {
+        //alert(response)
+        $("#Serremail").html(response)
+      }).fail(function (err) {
+        alert(err);
+      })
+
+    })
+    //---------------------------------------------------- 
+    $("#btnAJAXsignup").click(function () {
+      let obj = {
+        type: "get",
+        url: "/Ajax-signup",
+        data: {
+          StxtEmail: $("#StxtEmail").val(),
+          StxtPwd: $("#StxtPwd").val(),
+          Stxtutype: $("#Stxtutype").val()
+
+        }
+      }
+      $.ajax(obj).then(function (response) {
+        alert(response);
+
+      }).fail(function (err) {
+        alert("error");
+      })
+
+    })
+    //  ----------------------------------------
+    $("#btnAJAXlogin").click(function () {
+      var loginemail = $("#loginemail").val();
+      let obj = {
+        type: "get",
+        url: "/login",
+        data: {
+          loginemail: $("#loginemail").val(),
+          loginpwd: $("#loginpwd").val()
+
+
+        }
+      }
+
+      $.ajax(obj).then(
+
+        function (response) {
+          // alert("*"+response+"*");
+          if (response == "Blocked")
+            alert("Sorry your Id is blocked");
+          else if (response == "Invalid")
+            alert("Invalid Emailid or Password");
+          else if (response == "Player") {
+            localStorage.setItem("activeUser", loginemail);
+
+            location.href = "PlayerDash.html";
+          }
+
+          else if (response == "Organizer") {
+            localStorage.setItem("activeUser", loginemail);
+            location.href = "org-dash.html";
+          }
+
+          else if (response == "Admin") {
+            localStorage.setItem("activeUser", loginemail);
+            location.href = "AdminDash.html";
+          }
+
+        }).fail(function (err) {
+          alert(err);
+        })
+
+    })
+
+  })
+
+
+</script>
+<style>
+  .card{
+            transition: all 0.3s;
+          }
+
+          .card:hover{
+            transform: scale(1.10);
+          }
+  .btn {
+    transition: all 0.4s;
+  }
+
+  #nonbtn {
+    transition: all 0.4s;
+  }
+
+  .btn:hover {
+    transform: scale(1.1);
+    background-color: aqua;
+    color: blue;
+
+  }
+
+  #nonbtn:hover {
+    color: blue;
+  }
+
+  .join {
+    transition: all 0.2s;
+  }
+
+  .join:hover {
+    transform: scale(1.1);
+    background-color: rgb(97, 235, 85);
+    font-weight: 400;
+  }
+
+  body.dark-theme {
+    background-color: #121212;
+    color: white;
+  }
+</style>
+<!-- AJAX SCRIPT ENDS -->
+<!-- Find matches, join events, and showcase your talent. Organize, invite, and grow your tournaments – all in one place -->
+
+<body ng-app="kuchModule" ng-controller="kuchController"  style="background-image: url(./pics/different-sport-balls.jpg); background-size: cover;background-position: center center;
+background-repeat: no-repeat;
+background-attachment: fixed;overflow-x: hidden; ">
+  <div class="row " style="position: fixed; margin-left: 0px;z-index: 1000;" >
+    <div class="col-md-12  text-white "
+      style="  height: 70px; background: linear-gradient(to left, #000000, #6c6c6b); display:flex;position: fixed; z-index: 1000;">
+
+      <div class="col-md-6 offset-md-1" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+        <h1 style="margin-top: 10px;" class="fs-1 ">Jersify</h1>
+      </div>
+
+      <div class="col-md-5" style="margin-top: 10px;margin-right: 10px;display: flex; ">
+       <a href="#ourservices"style="color:white; text-decoration:none;"> <button type="button" class="btn" id="nonbtn"
+          style="background-color: rgba(4, 147, 68, 0);margin-left: 20px;color: #ffffff;"><font id="nonbtn">Our Services </font></button></a>
+        
+       
+         <a href="#meetthedevelopers"style="color:white; text-decoration:none;"> <button type="button" class="btn" id="nonbtn"
+          style="background-color: rgba(4, 147, 68, 0);margin-left: 20px;color: #ffffff;"><font id="nonbtn">Meet The Developers </font></button></a>
+        
+        
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalsignup"
+          style="background-color: rgba(4, 147, 68, 0);margin-left: 30px; height: 70%;">
+          SignUp
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modallogin"
+          style="background-color: rgba(4, 147, 68, 0);margin-left: 20px; height: 70%;">
+          login
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <!-- <div class="row">
+    <div class="col-md-4" style="height: 800px;"></div>
+  </div> -->
+  <center>
+
+    <div class="row" >
+      <div class="row"style="height: 2000px; ">
+        <!-- <img src="./pics/night-view-football-stadium.jpg" alt="" style="width: inherit;"> background: linear-gradient(to right, white 0%, black 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  font-size: 3rem;-->
+
+        <div class="col-md-8 offset-md-2 "
+          style="color: #000000;  margin-top: 100px; ">
+          <div style="margin-left: 20px;border: solid 1px black;border-radius: 20px;padding-bottom: 10px;height:fit-content;">
+          <center><h1
+            style="font-size: 250%; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            Connecting Players with Tournaments – Seamlessly.</h1></center>
+          <h3
+            style="font-size: 190%; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;float: left;">
+            Join a platform where sportspersons and organizers meet, connect, and compete</h3>
+          <button type="button" class="btn join " data-bs-toggle="modal" data-bs-target="#modalsignup"
+            style="background-color: rgba(4, 147, 68, 0);--bs-btn-font-size: 2rem;color: rgb(31, 94, 220);border: solid 1px rgb(31, 94, 220);">
+            Join now
+          </button>
+          </div>
+        </div>
+
+        <div class="col-md-8 offset-md-2"
+          style="color: #000000; float: left; margin-top: -300px;">
+          <div style="border-radius: 20px;padding: 20px;border-top-color: #00000033;border-style: solid;margin-left: 15px;background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.303), rgba(255, 255, 255, 0.155));">
+          <div class="col-md-12">
+            <h1
+              style="font-size:250%; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+              What is Jersify?</h1>
+          </div>
+          <div class="col-md-12 ">
+            <h1
+              style="font-size:160%; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+              Jersify is a one-stop platform designed to bridge the gap between talented sportspersons and sports
+              tournament organizers.</h1>
+          </div>
+          <div class="col-md-12 ">
+            <h1
+              style="font-size: 160%; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+              Our mission is to empower grassroots sports and help talents shine by providing them with direct access to
+              events and competitions across the country. No middlemen. No noise. Just sports.
+            </h1>
+          </div>
+          </div>
+        </div>
+       
+        <div class="row" style="margin-top: -350px;"id="ourservices">
+          
+        <div class="col-md-4 offset-md-4"
+          style="color: #000000; float: left;">
+          
+          <div class="col-md-12 ">
+            <div style="margin-left: 30px; background-color: #00000029; border-radius: 20px;padding: 20px;border-top-color: #000000;border-style: solid;">
+            <h1 
+              style="font-size: xx-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+              Our Services</h1>
+          </div>
+          </div>
+          
+          
+        </div>
+        </div>
+        
+
+        <!-- <div class="col-md-4 offset-md-4">
+         <h1
+            style="font-size: xx-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            Our services</h1>
+            </div> -->
+            <div style=" margin-top: -550px;">
+        <div style="grid-template-columns: 1fr 1fr; display: flex;" class="d-grid gap-3 col-md-8 offset-md-2">
+         
+          <div class="card p-2" style="width: 20rem;background: linear-gradient(to left, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+            
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">Building Connection</h5>
+              <p class="card-text" style="color: whitesmoke;">We bridge the gap between sportspersons and tournament organizers, making it easier to discover and participate in sports events across the country.</p>
+              
+            </div>
+          </div>
+          <div class="card p-2" style="width: 20rem;background: linear-gradient(to right, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+            
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">Tournament Discovery & Listings</h5>
+              <p class="card-text" style="color: whitesmoke;">Players can explore upcoming tournaments in their region by sport, date, and level—whether local, amateur, or professional.</p>
+              
+            </div>
+          </div>
+           <div class="card p-2" style="width: 20rem;background: linear-gradient(to left, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+            
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">Easy Registration & Profiles</h5>
+              <p class="card-text" style="color: whitesmoke;">Sportspersons can create detailed profiles, register for events, and showcase their achievements. Organizers can manage participant data seamlessly.</p>
+              
+            </div>
+          </div>
+          <div class="card p-2" style="width: 20rem;background: linear-gradient(to right, #000000b6, #3d3d3b);color: rgb(9, 206, 45);">
+            
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">Promote Your Tournament</h5>
+              <p class="card-text" style="color: whitesmoke;">Organizers can list and promote tournaments to a wide audience, receive participant interest, and manage applications easily.</p>
+               
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+<div style=" margin-top:-350px;" id="meetthedevelopers">
+  <div class="col-md-12 " style="margin-bottom: 20px;">
+            <div style="margin-left: 30px; background-color: #00000029; border-radius: 20px;padding: 20px;border-top-color: #000000;border-style: solid;">
+            <h1 
+              style="font-size: xx-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+              Meet The Developers</h1>
+          </div>
+          </div>
+        <div style="grid-template-columns: 1fr 1fr; display: flex;" class="d-grid gap-3 col-md-8 offset-md-2">
+         
+          <div class="card p-2" style="width: 20rem;background: linear-gradient(to left, #000000b6, #3d3d3b);color: rgb(255, 255, 255);">
+            
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 160%;">Under The Guidance Of</h5>
+              <p class="card-text" style="color: whitesmoke;">Mr. Rajesh Bansal, BCE</p>
+              
+            </div>
+          </div>
+          <div class="card p-2" style="width: 20rem;background: linear-gradient(to right, #000000b6, #3d3d3b);color: rgb(255, 255, 255);">
+            
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 180%;">Developed By</h5>
+              <p class="card-text" style="color: whitesmoke;">Sukhdev Singh,</p>
+              
+            </div>
+          
+          
+        </div>
+        </div>
+        
+
+
+
+      </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalsignup">
+  SignUp
+</button> -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalsignup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <!-- form signup -->
+        <form action="/signup">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">SignUp</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Email id</span>
+                <input type="text" class="form-control" name="StxtEmail" id="StxtEmail">
+                <div id="Serremail"></div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Password</span>
+                <input type="password" class="form-control" name="StxtPwd" id="StxtPwd">
+              </div>
+              <select class="form-select" aria-label="Default select example" name="Stxtutype" id="Stxtutype">
+                <option selected value="none">User Type</option>
+                <option value="Organizer">Organizer</option>
+                <option value="Player">Player</option>
+              </select>
+              <!-- <span>Already have an account? <li>
+    <a data-target="modal" data-toggle="modal" 
+       href="#modallogin">Login</a>
+</li></span> -->
+              <span>Already have an account? </span>
+              <button type="button" style="border:0px;background: #ffffff;" data-bs-toggle="modal"
+                data-bs-target="#modallogin">
+                <span style="color: blue;">Login</span>
+              </button>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="btnAJAXsignup">SignUp</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modallogin">
+  login
+</button> -->
+
+    <!-- Modal --login--->
+    <div class="modal fade" id="modallogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Login Modal</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Email id</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="loginemail"
+                  name="loginemail">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Password</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="loginpwd" name="loginpwd">
+              </div>
+              <div style="display:contents ;">
+                <div>
+                  <span>Don't have an account? </span>
+                  <button type="button" style="border:0px;background: #ffffff;" data-bs-toggle="modal"
+                    data-bs-target="#modalsignup">
+                    <span style="color: blue;">Create an Account </span>
+                  </button>
+                </div>
+                <div>
+                  <span>Forgot password? </span>
+                  <button type="button" style="border:0px;background: #ffffff;" data-bs-toggle="modal"
+                    data-bs-target="#resetpwd">
+                    <span style="color: blue;">Click here. </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="btnAJAXlogin">Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" >
+  <a href="/show-org-dashboard"><span style="color: #ffffff;">Organizer</span></a>
+</button>
+ <button type="button" class="btn btn-primary" data-bs-toggle="modal" >
+  <a href="/show-Player-dashboard"><span style="color: #ffffff;">Player</span></a>
+</button>
+ <button type="button" class="btn btn-primary" data-bs-toggle="modal" >
+  <a href="/show-Admin-dashboard"><span style="color: #ffffff;">Admin</span></a>
+</button> -->
+
+    <!-- forgot passss -->
+    <div class="modal fade" id="resetpwd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Reset Password</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Email id</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="email" ng-model="email"
+                  name="email">
+              </div>
+              <!-- <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">Old Password</span>
+              <input type="text" class="form-control" aria-describedby="basic-addon1" id="Pwd" name="Pwd"ng-model="Pwd"  ng-blur="doCheckEmailPwd();">
+            </div> -->
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">New Password</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="NewPwd" name="NewPwd"
+                  ng-model="NewPwd">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" ng-click="doChangePwd();">Reset</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+
+
+  </center>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+  <script>
+    var mymodule = angular.module("kuchModule", []);
+
+    mymodule.controller("kuchController", function ($scope, $http) {
+      $scope.jsonArray = [];
+      $scope.email = "";
+      $scope.Pwd = "";
+      $scope.NewPwd = "";
+      $scope.doCheckEmailPwd = function () {
+        //alert();
+        var url = "/do-Check-Email-Pwd?Email=" + $scope.email + "&Pwd=" + $scope.Pwd;
+
+
+        $http.get(url).then(allGoodFx, someBadFx);
+        function allGoodFx(response) {
+          //resp in JSON array
+          alert(JSON.stringify(response.data));
+          //$scope.jsonArray = response.data;
+        }
+
+        function someBadFx(response) {
+          alert(JSON.stringify(response.data));
+        }
+      };
+
+      $scope.doChangePwd = function () {
+        //alert();
+        var url = "/do-Change-Pwd-index?Email=" + $scope.email + "&NewPwd=" + $scope.NewPwd;
+
+
+        $http.get(url).then(allGoodFx, someBadFx);
+        function allGoodFx(response) {
+          //resp in JSON array
+          alert(JSON.stringify(response.data));
+          //$scope.jsonArray = response.data;
+        }
+
+        function someBadFx(response) {
+          alert(JSON.stringify(response.data));
+        }
+      };
+    });
+  </script>
+
+</body>
+
+</html>

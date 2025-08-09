@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Explore Events</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+    
+    <style>
+        .btnnn {
+            transition: all 0.4s;
+            background-color: #6e6e6e;
+
+        }
+
+        .btnnn:hover {
+            transform: scale(1.1);
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+
+        .shine-text {
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, #606060, rgb(34, 34, 34), #6e6e6e);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s infinite ease-in-out;
+        }
+
+        .card {
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.10);
+        }
+
+
+        @keyframes shine {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        #BODY {
+            background-image: url(pics/29303858_7516831.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            image-rendering: optimizeSpeed;
+            height: 100%;
+            width: 100%;
+
+
+            
+            
+        }
+        .frosted-glass {
+        background: rgba(255, 255, 255, 0.101);
+        /* Semi-transparent white */
+        backdrop-filter: blur(10px);
+        /* Apply blur effect */
+        -webkit-backdrop-filter: blur(10px);
+        /* For Safari support */
+        border: 1px solid rgba(255, 255, 255, 0.23);
+        /* Subtle border */
+        border-radius: 15px;
+        /* Rounded corners */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Soft shadow */
+        padding: 20px;
+        /* Inner spacing */
+
+    }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#btnresult").click(function () {
+                if ($("#selGame").val() == "badminton") {
+                    // $("#BODY").css('background-image', 'none');
+
+                    $("#BODY").css('background-image', "url('pics/badminton.jpg')");
+                    $("#BODY").css('background-position', "23% top");
+                }
+                if ($("#selGame").val() == "tennis") {
+                    // $("#BODY").css('background-image', 'none');
+
+                    $("#BODY").css('background-image', "url('pics/tennis2.jpg')");
+                    $("#BODY").css('background-position', "center 25%");
+                }
+                if ($("#selGame").val() == "soccer") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "35% 60%");
+                    $("#BODY").css('background-image', "url('pics/21684215_Penalty\ kick\ of\ soccer\ player\ on\ field\ of\ stadium.jpg')");
+                }
+                if ($("#selGame").val() == "football") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "35% 60%");
+                    $("#BODY").css('background-image', "url('pics/21684215_Penalty\ kick\ of\ soccer\ player\ on\ field\ of\ stadium.jpg')");
+                }
+                if ($("#selGame").val() == "volleyball") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "53% top");
+                    $("#BODY").css('background-image', "url('pics/vollyball.jpg')");
+                }
+                if ($("#selGame").val() == "tabletennis") {
+                    // $("#BODY").css('background-image', 'none');
+
+                    $("#BODY").css('background-image', "url('pics/tabletennis.jpg.jpg')");
+                    $("#BODY").css('background-position', "40% 20%");
+
+                }
+                // if($(this).val()=="golf"){
+                //    // $("#BODY").css('background-image', 'none');
+                //     $("#BODY").css('background-position', "42% top");
+                //     $("#BODY").css('background-image', "url('pics/2869718_6114.jpg')");
+
+                // }
+                if ($("#selGame").val() == "baseball") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "70% top");
+                    $("#BODY").css('background-image', "url('pics/baseball.jpg')");
+                }
+                if ($("#selGame").val() == "hockey") {
+                    // $("#BODY").css('background-image', 'none');
+
+                    $("#BODY").css('background-image', "url('pics/hockey.jpg')");
+                    $("#BODY").css('background-position', "center 30%");
+                }
+                if ($("#selGame").val() == "cricket") {
+                    // $("#BODY").css('background-image', 'none');
+
+                    $("#BODY").css('background-image', "url('pics/cricket.jpg')");
+                    $("#BODY").css('background-position', "60% top");
+
+                }
+
+                if ($("#selGame").val() == "basketball") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "center top");
+                    $("#BODY").css('background-image', "url('pics/26761526_2107.i101.005.S.m004.c13.basketball\ isometric.jpg')");
+                }
+                if ($("#selGame").val() == "handball") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "18% bottom");
+                    $("#BODY").css('background-image', "url('pics/handball.jpg')");
+                }
+                if ($("#selGame").val() == "rugby") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "18% top");
+                    $("#alrec").css('color', "white");
+                    $("#BODY").css('background-image', "url('pics/RUGBY (3).jpg')");
+
+                }
+                if ($("#selGame").val() == "archery") {
+                    // $("#BODY").css('background-image', 'none');
+                    $("#BODY").css('background-position', "center 30%");
+                    $("#alrec").css('color', "white");
+                    $("#BODY").css('background-image', "url('pics/arch2.jpg')");
+
+                }
+
+
+
+            })
+        })
+    </script>
+    <script>
+
+
+        var mymodule = angular.module("kuchModule", []);
+
+        mymodule.controller("kuchController", function ($scope, $http) {
+            $scope.jsonArray = [];
+            $scope.selCity;
+            $scope.selGame;
+            $scope.doFetchAllCities2 = function () {
+                var url = "/do-fetch-all-cities?kuchGame=" + $scope.selGame;
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    //alert(JSON.stringify(response.data));
+                    $scope.cities = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+           $scope.doFetchAllSports2 = function () {
+                var url = "/do-fetch-all-sports?kuchCity=" + $scope.selCity;
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    //alert(JSON.stringify(response.data));
+                    $scope.sports = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+            $scope.doFetchAll = function () {
+                //alert();
+                var url = "/do-fetch-all-tournaments?kuchCity=" + $scope.selCity + "&kuchGame=" + $scope.selGame;
+
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    //alert(JSON.stringify(response.data));
+                    $scope.jsonArray = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+
+            //////////////////////////
+
+
+            $scope.cities = [{}];
+            $scope.doFetchAllCities = function () {
+                var url = "/do-fetch-all-cities";
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    //alert(JSON.stringify(response.data));
+                    $scope.cities = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+
+            $scope.sports = [{}];
+            $scope.doFetchAllSports = function () {
+                var url = "/do-fetch-all-sports";
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    //alert(JSON.stringify(response.data));
+                    $scope.sports = response.data;
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
+
+            ////////////=========================
+            $scope.oneRecord = {};
+            $scope.doShowDetails = function (index) {
+                // alert(JSON.stringify($scope.jsonArray[index]))
+                $scope.oneRecord = $scope.jsonArray[index];
+                $scope.oneRecord.lastdate = $scope.oneRecord.lastdate.split("T");
+                $scope.oneRecord.lastdate = $scope.oneRecord.lastdate[0];
+                $scope.oneRecord.doe = $scope.oneRecord.doe.split("T");
+                $scope.oneRecord.doe = $scope.oneRecord.doe[0];
+                $scope.oneRecord.minage=$scope.oneRecord.minage+"y";
+                 $scope.oneRecord.maxage=$scope.oneRecord.maxage+"y";
+                  $scope.oneRecord.fee=$scope.oneRecord.fee+"Rs";
+                 $scope.oneRecord.prize=$scope.oneRecord.prize+"Rs";
+            }
+        });
+        // function chktrimm(){
+        //     alert();
+        //     document.getElementById("trimm").value=document.getElementById("trimm").value.substring(0,str.length-14);
+        // }
+    </script>
+</head>
+
+<body ng-app="kuchModule" ng-controller="kuchController" ng-init="doFetchAllSports(); doFetchAllCities();" id="BODY"
+    class="img-fluid">
+    <nav class="navbar navbar-expand-md bg-body-tertiary " style="box-shadow: 1px 1px 10px rgb(102, 102, 102);">
+        <div class="container-fluid ">
+            <div class="me-4"
+                style="padding-left: 10px;padding-right: 10px; width: fit-content;height: fit-content;border-radius: 20px;">
+                <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
+                    class="fs-1 shine-text" id="jersify">Jersify</h1>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="navbar-nav ">
+
+
+
+                    <li class="nav-link"> <a class="btn btnnn nav-link me-3 "
+                            style="border-radius: 30px;float: left;padding-left: 15px;padding-right: 15px;"
+                            aria-current="page" href="/">Home</a></li>
+                    <li class="nav-link"><a href="/PlayerDash.html" class="btn btnnn nav-link me-3 "
+                            style="float: left; border-radius: 30px;padding-left: 15px;padding-right: 15px;">Go Back</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        </div>
+        </div>
+    </nav>
+    <center>
+        <br><br>
+        <!-- <SELECT ng-model="selGame">
+        <option value="undefined">select</option>
+  <option value="archery">Archery</option>
+  <option value="badminton">Badminton</option>
+  <option value="baseball">Baseball</option>
+  <option value="basketball">Basketball</option>
+  <option value="billiards">Billiards</option>
+  <option value="bmx">BMX</option>
+  <option value="bowling">Bowling</option>
+  <option value="boxing">Boxing</option>
+  <option value="canoeing">Canoeing</option>
+  <option value="climbing">Climbing</option>
+  <option value="cricket">Cricket</option>
+  <option value="cycling">Cycling</option>
+  <option value="darts">Darts</option>
+  <option value="diving">Diving</option>
+  <option value="equestrian">Equestrian</option>
+  <option value="esports">eSports</option>
+  <option value="fencing">Fencing</option>
+  <option value="figure-skating">Figure Skating</option>
+  <option value="football">Football</option>
+  <option value="golf">Golf</option>
+  <option value="gymnastics">Gymnastics</option>
+  <option value="handball">Handball</option>
+  <option value="hockey">Hockey</option>
+  <option value="judo">Judo</option>
+  <option value="karate">Karate</option>
+  <option value="lacrosse">Lacrosse</option>
+  <option value="mma">MMA (Mixed Martial Arts)</option>
+  <option value="motorsport">Motorsport</option>
+  <option value="paddle">Paddle</option>
+  <option value="pickleball">Pickleball</option>
+  <option value="ping-pong">Ping Pong</option>
+  <option value="racquetball">Racquetball</option>
+  <option value="rowing">Rowing</option>
+  <option value="rugby">Rugby</option>
+  <option value="sailing">Sailing</option>
+  <option value="shooting">Shooting</option>
+  <option value="skateboarding">Skateboarding</option>
+  <option value="skiing">Skiing</option>
+  <option value="snowboarding">Snowboarding</option>
+  <option value="soccer">Soccer</option>
+  <option value="softball">Softball</option>
+  <option value="squash">Squash</option>
+  <option value="surfing">Surfing</option>
+  <option value="swimming">Swimming</option>
+  <option value="table-tennis">Table Tennis</option>
+  <option value="taekwondo">Taekwondo</option>
+  <option value="tennis">Tennis</option>
+  <option value="track-field">Track & Field</option>
+  <option value="triathlon">Triathlon</option>
+  <option value="ultimate-frisbee">Ultimate Frisbee</option>
+  <option value="volleyball">Volleyball</option>
+  <option value="water-polo">Water Polo</option>
+  <option value="weightlifting">Weightlifting</option>
+  <option value="wrestling">Wrestling</option>
+ --><!-- </SELECT> -->
+        <div class="container">
+            <div class="row" style="display: flex;">
+                <div class="col-md-4 offset-md-2"> <select ng-model="selGame" id="selGame" class="form-select"
+                        ng-change="doFetchAllCities2();">
+                        <option value="">select Sports</option>
+                        <!-- <option value="All">All</option> -->
+                        <option ng-repeat="obj in sports" value={{obj.sports}}>{{obj.sports}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 ">
+                    <select ng-model="selCity" class="form-select " ng-change="doFetchAllSports2();">
+                        <option value="">select City</option>
+                        <!-- <option value="All">All</option> -->
+                        <option ng-repeat="obj in cities" value={{obj.city}}>{{obj.city}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <input type="button" class="btn btnnn mt-3" style="color: white;" value="Find Tournaments"
+            ng-click="doFetchAll();" id="btnresult">
+        <div></div>
+        <h2 id="alrec">Tournaments</h2>
+        <hr style="height: 3px;border: solid 1px black;background-color: black;">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3  p-3 mb-2" ng-repeat="obj in jsonArray">
+                    <div class="card frosted-glass" style="box-shadow: 3px 3px 30px rgb(58, 58, 58);" >
+
+                        <h5 class="card-title fs-3"
+                            style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                            {{obj.tourevent}}
+                        </h5>
+                        <div class="card-body">
+                            <div class="fs-2"
+                                style=" width: 250px;line-height: 60px;  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: left;">
+                                <div>City: {{obj.city}}</div>
+                                <div>{{obj.sports}}</div>
+                            </div>
+
+
+
+
+                            <a href="#" class="btn btnnn" style="color:white;" data-bs-toggle="modal"
+                                data-bs-target="#detailsModal" ng-click="doShowDetails($index);">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ************************** -->
+
+
+        <!-- ************************** -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">ALL DETAILS</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <p class="align-left-bold-heading">
+                            Emailid : {{oneRecord.emailid}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            EventTitle : {{oneRecord.tourevent}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Posted Date : {{oneRecord.doe}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Time Of Event : {{oneRecord.toe}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Location : {{oneRecord.address}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            City : {{oneRecord.city}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Type of sport : {{oneRecord.sports}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Minimum Age : {{oneRecord.minage}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Maximum Age : {{oneRecord.maxage}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Last Date Of Registration : <span id="trimm">{{oneRecord.lastdate}}</span>
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Entry Fees : {{oneRecord.fee}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Prize : {{oneRecord.prize}}
+                        </p>
+                        <p class="align-left-bold-heading">
+                            Contact : {{oneRecord.contact}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+    <table width="800" border="1" rules="all">
+        <tr>
+            <th>Sr.No</th>
+            <th>Email Id</th>
+            <th>Password</th>
+            <th>Mobile</th>
+            <th>
+                pic
+            </th>
+            <th>
+                Operations
+            </th>
+        </tr>
+        <tr ng-repeat="obj in jsonArray">
+            <td>{{$index+1}}</td>
+            <td>{{obj.emailid}}</td>
+            <td>{{obj.pwd}}</td>
+            <td>{{obj.mobile}}</td>
+            <td>
+               <a href={{obj.picurl}}> 
+                <img src={{obj.picurl}} width="50" height="50">
+                </a>
+            </td>
+            <th>
+                <input type="button" ng-click="doDelete(obj.emailid,obj.pwd);" value="Remove">
+            </th>
+
+        </tr>
+    </table>
+
+    </table>
+-->
+    </center>
+</body>
+
+</html>
